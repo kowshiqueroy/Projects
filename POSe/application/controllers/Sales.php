@@ -145,7 +145,7 @@ class Sales extends MY_Controller {
 												</a>
 											</li>';
 
-											if($this->permissions('sales_return'))
+											if($sales->sales_status=='Final' && $this->permissions('sales_return'))
 											$str2.='<li>
 												<a title="Sales Return" href="sales_return/add/'.$sales->id.'">
 													<i class="fa fa-fw fa-undo text-blue"></i>Sales Return

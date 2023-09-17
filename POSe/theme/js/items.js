@@ -20,19 +20,27 @@ $('#save,#update').on("click",function (e) {
         }
     }
 
-
+   
+   
     //Validate Input box or selection box should not be blank or empty
 	check_field("item_name");
 	check_field("category_id");
 	check_field("unit_id");//units of measurments
 	check_field("price");
-	//check_field("alert_qty");
+	check_field("alert_qty");
+
 	check_field("tax_id");
 	check_field("purchase_price");
 	check_field("tax_type");
 	//check_field("profit_margin");
 	check_field("sales_price");
 	
+	if(!$.isNumeric($("#alert_qty").val())){
+   	toastr["error"]("Miminum Quantity must be a number");
+   	$("#alert_qty").focus();
+   	return false;
+   }
+
     if(flag==false)
     {
 		toastr["warning"]("You have Missed Something to Fillup!");
@@ -290,6 +298,7 @@ function calculate_purchase_price(){
 }
 $("#price").keyup(function(event) {
 	calculate_purchase_price();
+	calculate_sales_price();
 });
 $("#tax_id").on("change",function(event) {
 	calculate_purchase_price();
@@ -297,26 +306,12 @@ $("#tax_id").on("change",function(event) {
 
 //CALCUALATED SALES PRICE
 function calculate_sales_price(){
-	var purchase_price = (isNaN(parseFloat($("#purchase_price").val().trim()))) ? 0 :parseFloat($("#purchase_price").val().trim()); 
-	var profit_margin = (isNaN(parseFloat($("#profit_margin").val().trim()))) ? 0 :parseFloat($("#profit_margin").val().trim()); 
-	var tax_type = $("#tax_type").val();
+	var price = get_float_type_data("#price");
+	var profit_margin = get_float_type_data("#profit_margin");
 
+	var profit_amt = parseFloat((profit_margin/100) * price);
 
-	var sales_price =parseFloat(0);
-	if(purchase_price>0){
-		if(tax_type=='Inclusive'){
-			sales_price = purchase_price + ((purchase_price*profit_margin)/parseFloat(100));
-		}
-		else{
-			//var price = (isNaN(parseFloat($("#price").val().trim()))) ? 0 :parseFloat($("#price").val().trim()); 
-			sales_price = purchase_price + ((purchase_price*profit_margin)/parseFloat(100));
-		}	
-	}
-	else{
-		sales_price = profit_margin;
-	}
-	
-
+	var sales_price = price + profit_amt;
 
 	$("#sales_price").val(sales_price.toFixed(2));
 	//calculate_profit_margin();
@@ -329,6 +324,7 @@ $("#tax_type").on("change",function(event) {
 $("#profit_margin").keyup(function(event) {
 	calculate_sales_price();
 });
+
 //END
 function calculate_final_price(){
 	var tax_type = $("#tax_type").val();
@@ -342,10 +338,10 @@ function calculate_final_price(){
 }
 //CALCULATE PROFIT MARGIN PERCENTAGE
 function calculate_profit_margin(){
-	var purchase_price = (isNaN(parseFloat($("#purchase_price").val().trim()))) ? 0 :parseFloat($("#purchase_price").val().trim()); 
+	var price = (isNaN(parseFloat($("#price").val().trim()))) ? 0 :parseFloat($("#price").val().trim()); 
 	var sales_price = (isNaN(parseFloat($("#sales_price").val().trim()))) ? 0 :parseFloat($("#sales_price").val().trim()); 	
-	var profit_margin = (sales_price-purchase_price);
-	var profit_margin = (purchase_price>0) ? (profit_margin/purchase_price)*parseFloat(100) : profit_margin;
+	var profit_margin = (sales_price-price);
+	var profit_margin = (price>0) ? (profit_margin/price)*parseFloat(100) : profit_margin;
 	$("#profit_margin").val(profit_margin.toFixed(0));
 }
 $("#sales_price").keyup(function(event) {

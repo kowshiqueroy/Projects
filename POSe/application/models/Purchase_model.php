@@ -24,6 +24,11 @@ class Purchase_model extends CI_Model {
 		$this->db->where('b.id=a.supplier_id');
 		//$this->db->where('c.id=a.warehouse_id');
 
+		if(!permissions('view_all_users_purchase_invoices')){
+	      	$this->db->where("upper(a.created_by)",strtoupper($this->session->userdata('inv_username')));
+	      }
+
+
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 

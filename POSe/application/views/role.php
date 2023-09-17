@@ -485,6 +485,12 @@ echo "<pre>";
                                               <div class="checkbox icheck"><label>
                                                 <input type="checkbox" class="purchase_all" id='purchase_view' name="permission[purchase_view]"> <?= $this->lang->line('view'); ?>
                                               </label></div>
+
+                                              <div class="checkbox icheck"><label>
+                                                <input type="checkbox" class="purchase_all" id='view_all_users_purchase_invoices' name="permission[view_all_users_purchase_invoices]"> <?= $this->lang->line('view_all_users_purchase_invoices'); ?>
+                                              </label></div>
+
+
                                               <div class="checkbox icheck"><label>
                                                 <input type="checkbox" class="purchase_all" id='purchase_payment_view' name="permission[purchase_payment_view]"> <?= $this->lang->line('purchase_payments_view'); ?>
                                               </label></div>
@@ -519,6 +525,12 @@ echo "<pre>";
                                               <div class="checkbox icheck"><label>
                                                 <input type="checkbox" class="purchase_return_all" id='purchase_view' name="permission[purchase_return_view]"> <?= $this->lang->line('view'); ?>
                                               </label></div>
+
+
+                                              <div class="checkbox icheck"><label>
+                                                <input type="checkbox" class="purchase_return_all" id='view_all_users_purchase_return_invoices' name="permission[view_all_users_purchase_return_invoices]"> <?= $this->lang->line('view_all_users_purchase_return_invoices'); ?>
+                                              </label></div>
+                                              
                                               <div class="checkbox icheck"><label>
                                                 <input type="checkbox" class="purchase_return_all" id='purchase_return_payment_view' name="permission[purchase_return_payment_view]"> <?= $this->lang->line('purchase_return_payments_view'); ?>
                                               </label></div>
@@ -533,7 +545,7 @@ echo "<pre>";
                                         <!-- Sales -->
                                         <tr>
                                           <td><?= $i++;?></td>
-                                          <td><?= $this->lang->line('sales'); ?> (Include POS)</td>
+                                          <td><?= $this->lang->line('sales'); ?> (Including POS)</td>
                                           <td>
                                               <div class="checkbox icheck"><label>
                                                 <input type="checkbox" class="change_me" id="sales" > <?= $this->lang->line('select_all'); ?>
@@ -541,6 +553,11 @@ echo "<pre>";
                                           </td>
                                           <td>
                                               <input type="hidden" name="module[sales]" value="on">
+
+                                              <div class="checkbox icheck"><label>
+                                                <input type="checkbox" class="sales_all" id='pos' name="permission[pos]" > <?= $this->lang->line('pos'); ?>
+                                              </label></div>
+
                                               <div class="checkbox icheck"><label>
                                                 <input type="checkbox" class="sales_all" id='sales_add' name="permission[sales_add]" > <?= $this->lang->line('add'); ?>
                                               </label></div>
@@ -553,6 +570,12 @@ echo "<pre>";
                                               <div class="checkbox icheck"><label>
                                                 <input type="checkbox" class="sales_all" id='sales_view' name="permission[sales_view]"> <?= $this->lang->line('view'); ?>
                                               </label></div>
+
+                                              <div class="checkbox icheck"><label>
+                                                <input type="checkbox" class="sales_all" id='view_all_users_sales_invoices' name="permission[view_all_users_sales_invoices]"> <?= $this->lang->line('view_all_users_sales_invoices'); ?>
+                                              </label></div>
+
+
                                               <div class="checkbox icheck"><label>
                                                 <input type="checkbox" class="sales_all" id='sales_payment_view' name="permission[sales_payment_view]"> <?= $this->lang->line('sales_payments_view'); ?>
                                               </label></div>
@@ -587,6 +610,11 @@ echo "<pre>";
                                               <div class="checkbox icheck"><label>
                                                 <input type="checkbox" class="sales_return_all" id='sales_view' name="permission[sales_return_view]"> <?= $this->lang->line('view'); ?>
                                               </label></div>
+
+                                              <div class="checkbox icheck"><label>
+                                                <input type="checkbox" class="sales_return_all" id='view_all_users_sales_return_invoices' name="permission[view_all_users_sales_return_invoices]"> <?= $this->lang->line('view_all_users_sales_return_invoices'); ?>
+                                              </label></div>
+
                                               <div class="checkbox icheck"><label>
                                                 <input type="checkbox" class="sales_return_all" id='sales_return_payment_view' name="permission[sales_return_payment_view]"> <?= $this->lang->line('sales_return_payments_view'); ?>
                                               </label></div>
@@ -676,6 +704,25 @@ echo "<pre>";
                                               </label></div>
                                           </td>
                                         </tr>
+
+                                        <!--DASHBOARD  -->
+                                        <tr>
+                                          <td><?= $i++;?></td>
+                                          <td><?= $this->lang->line('help_documentation'); ?></td>
+                                          <td>
+                                              <div class="checkbox icheck"><label>
+                                                <input type="checkbox" class="change_me" id="help"> <?= $this->lang->line('select_all'); ?>
+                                              </label></div>
+                                          </td>
+                                          <td>
+                                              <input type="hidden" name="module[help]" value="on">
+                                              <div class="checkbox icheck"><label>
+                                                <input type="checkbox" class="help_all" id='help' name="permission[help]"> <?= $this->lang->line('help_documentation'); ?>
+                                              </label></div>
+                                          </td>
+                                        </tr>
+
+
                                       </tbody>
                                       
                                     </table>

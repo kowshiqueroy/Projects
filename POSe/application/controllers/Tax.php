@@ -10,7 +10,12 @@ class Tax extends MY_Controller {
 	
 	public function index(){
 
-		$this->session->set_flashdata('warning', 'Warning! Tax has been Disabled in application. You can enable it from SIDEBAR->SITE SETTINGS->DISABLE TAX(Uncheck it).');
+		//Verify is tax disabled from site settings form?
+		$disable_tax = $this->db->select("disable_tax")->get("db_sitesettings")->row()->disable_tax;
+		if($disable_tax==1){
+			$this->session->set_flashdata('info', 'Note: Tax has been Enabled in application. You can disable it from SIDEBAR->SITE SETTINGS->DISABLE TAX(Checkmark it).');
+		}
+		
 
 		$this->permission_check('tax_view');
 		$data=$this->data;

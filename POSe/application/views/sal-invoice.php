@@ -460,7 +460,7 @@
           PDF
         </a>
         
-        <?php if($CI->permissions('sales_return_add')) { ?>
+        <?php if(($sales_status=='Final') && $CI->permissions('sales_return_add')) { ?>
             <a href="<?php echo $base_url; ?>sales_return/add/<?php echo  $sales_id ?>" class="btn btn-danger">
             <i class="fa  fa-undo"></i> Sales Return
           </a>

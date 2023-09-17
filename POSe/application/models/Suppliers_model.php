@@ -766,4 +766,42 @@ class Suppliers_model extends CI_Model {
 		return "success";
 	}
 
+	public function getSuppliersArray($id=''){
+    $q = '';
+
+    $this->db->select("supplier_code, id, supplier_name, mobile")->from('db_suppliers');
+    
+    if(!empty($id)){
+
+      $this->db->where("id",$id);
+      
+    }else{
+
+      $q = (isset($_POST['searchTerm'])) ? strtoupper($_POST['searchTerm']) : '';
+
+      $this->db->where("(upper(supplier_name) like '%$q%' or upper(mobile) like '%$q%')");
+    }
+    $this->db->limit(10);
+    //echo $this->db->get_compiled_select();exit;
+    $query = $this->db->get();
+
+    $display_json = array();
+
+    if($query->num_rows()>0){
+      foreach($query->result() as $res){
+
+          $json_arr["id"]            = $res->id;
+          $json_arr["text"]            = $res->supplier_name;
+          $json_arr["mobile"]          = $res->mobile;
+          
+          array_push($display_json, $json_arr);
+      }
+    }
+    return $display_json;
+  }
+  public function getSuppliersJson($id){
+    return json_encode($this->getSuppliersArray($id));
+  }
+
+
 }

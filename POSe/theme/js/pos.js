@@ -118,7 +118,9 @@ function save(print=false,pay_all=false){
 								console.log('inside form');
 								$("#pos-form")[0].reset();
 
-								$("#customer_id").val(1).select2();
+								autoLoadFirstCustomer(1);
+
+								//$("#customer_id").val(1).select2();
 
 								final_total();
 
@@ -305,7 +307,10 @@ function hold_invoice_edit(id){
       $('#pos-form-tbody').html('').append(result[0]);
       $('#discount_input').val(result[1]);
       $('#discount_type').val(result[2]);
-      $('#customer_id').val(result[3]).select2();
+
+      autoLoadFirstCustomer(result[3]);
+      //$('#customer_id').val(result[3]).select2();
+      
       $("#other_charges").val(result[4]);
       $("#hidden_invoice_id").val(result[5]);
       $("#hidden_rowcount").val(parseInt($(".items_table tr").length)-1);

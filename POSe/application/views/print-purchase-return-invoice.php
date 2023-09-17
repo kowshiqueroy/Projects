@@ -97,11 +97,24 @@ body{
     $round_off=$res3->round_off;
     $payment_status=$res3->payment_status;
     
-    $supplier_country = $this->db->query("select country from db_country where id=".$res3->country_id)->row()->country;
-    if(!empty($supplier_state)){
-      $supplier_state = $this->db->query("select state from db_states where id=".$supplier_state)->row()->state;
+    if(!empty($supplier_country)){
+      $Query1 = $this->db->query("select country from db_country where id='$supplier_country'");
+      if($Query1->num_rows()>0){
+        $supplier_country = $Query1->get()->row()->country;  
+      }
+      else{
+        $supplier_country = '';
+      }
     }
-
+    if(!empty($supplier_state)){
+      $Query1 = $this->db->query("select state from db_states where id='$supplier_state'");
+      if($Query1->num_rows()>0){
+        $supplier_state = $Query1->get()->row()->state;  
+      }
+      else{
+        $supplier_state = '';
+      }
+    }
    
   
     ?>

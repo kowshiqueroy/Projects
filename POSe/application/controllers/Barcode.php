@@ -18,7 +18,7 @@ class Barcode extends MY_Controller {
 		$barcodeOptions = array(
 			    		'text' => $input, 
 			    		'fontSize' => 10, 
-			    		'factor'=>1.5,
+			    		'factor'=>2.5,
 			    		'barHeight'=> 10, 
 						);
 		$rendererOptions = array();

@@ -39,6 +39,9 @@
                         <!-- form start -->
                         <form class="form-horizontal" id="report-form" onkeypress="return event.keyCode != 13;">
                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+
+                           <input type="hidden" id="base_url" value="<?php echo $base_url;; ?>">
+
                            <div class="box-body">
                               <div class="form-group">
                                  <label for="brand_id" class="col-sm-2 control-label"><?= $this->lang->line('brand'); ?></label>
@@ -90,6 +93,9 @@
                                  </div>
                                  
                               </div>
+
+                              
+
                            </div>
                            <!-- /.box-body -->
                            <div class="box-footer">
@@ -122,6 +128,20 @@
                         <div class="tab-content">
                            <div class="tab-pane active" id="tab_1">
                               <div class="row">
+                              <div class="row">
+                                 <div class="col-md-8">
+                                    <div class="form-group">
+                                 <label for="item_id" class="col-sm-2 control-label text-right"><?= $this->lang->line('item_name'); ?></label>
+                                 <div class="col-sm-6">
+                                    <select class="form-control select2 " id="item_id" name="item_id"  style="width: 100%;">
+                                    </select>
+                                    <span id="item_id_msg" style="display:none" class="text-danger"></span>
+                                 </div>
+
+                                 
+                              </div>
+                                 </div>
+                              </div>
                                  <!-- right column -->
                                  <div class="col-md-12">
                                     <!-- form start -->
@@ -162,7 +182,7 @@
                                  <!-- right column -->
                                  <div class="col-md-12">
                                     <!-- form start -->
-                                       <input type="hidden" id="base_url" value="<?php echo $base_url;; ?>">
+                                       
                                           <?php $this->load->view('components/export_btn',array('tableId' => 'brand_wise_stock'));?>
                                           <br><br>
                                           <div class="table-responsive">
@@ -192,7 +212,7 @@
                                  <!-- right column -->
                                  <div class="col-md-12">
                                     <!-- form start -->
-                                       <input type="hidden" id="base_url" value="<?php echo $base_url;; ?>">
+                                       
                                           <?php $this->load->view('components/export_btn',array('tableId' => 'category_wise_stock'));?>
                                           <br><br>
                                           <div class="table-responsive">
@@ -246,10 +266,31 @@
 <!-- TABLE EXPORT CODE -->
 <?php include"comman/code_js_export.php"; ?>
 
+
+<script src="<?php echo $theme_link; ?>js/ajaxselect/item_select_ajax.js"></script>  
+<script>
+   //Item Selection Box Search
+   function getItemSelectionId() {
+     return '#item_id';
+   }
+   //Item Selection Box Search - END
+
+
+   $("#item_id").on("change", function(){
+         load_reports();
+   });
+</script>
+
 <script type="text/javascript">
-  function load_reports(brand_id='',category_id=''){
+  function load_reports(){
+
+   var brand_id=document.getElementById("brand_id").value.trim();
+    var category_id=document.getElementById("category_id").value.trim();
+
+
    $(".box").append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-        $.post("get_stock_report",{brand_id:brand_id,category_id:category_id},function(result){
+
+        $.post("get_stock_report",{brand_id:brand_id,category_id:category_id,item_id:$("#item_id").val()},function(result){
             result = $.parseJSON(result);
 
               $.each( result, function( key, val ) {
@@ -272,11 +313,8 @@
 <script>
     $("#view,#view_all").on("click",function(){
     
-    
-    var brand_id=document.getElementById("brand_id").value.trim();
-    var category_id=document.getElementById("category_id").value.trim();
-
-     load_reports(brand_id,category_id);
+   
+     load_reports();
       
     
 });

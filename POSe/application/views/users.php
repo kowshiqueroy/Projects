@@ -62,7 +62,7 @@
                               <div class="form-group">
                                  <label for="new_user" class="col-sm-4 control-label"><?= $this->lang->line('user_name'); ?><label class="text-danger">*</label></label>
                                  <div class="col-sm-8">
-                                    <input type="text" class="form-control input-sm" id="new_user" name="new_user" placeholder="" onkeyup="shift_cursor(event,'mobile')" value="<?php print $username; ?>" <?=$disabled;?> autofocus>
+                                    <input type="text" class="form-control input-sm" id="new_user" name="new_user" placeholder="" onkeyup="shift_cursor(event,'mobile')" value="<?php print $username; ?>"  autofocus>
                                     <span id="new_user_msg" style="display:none" class="text-danger"></span>
                                  </div>
                               </div>
@@ -111,14 +111,22 @@
                                  </div>
                               </div>
                               <div class="form-group">
-                                 <label for="pass" class="col-sm-4 control-label"><?= $this->lang->line('password'); ?><label class="text-danger">*</label></label>
+                                 <label for="pass" class="col-sm-4 control-label"><?= $this->lang->line('password'); ?>
+                                 <?php if(empty($q_id)){ ?>
+                                 <label class="text-danger">*</label>
+                                 <?php }?>
+                              </label>
                                  <div class="col-sm-8">
                                     <input type="password" class="form-control input-sm"  <?php print $disabled; ?> id="pass" name="pass" placeholder="" onkeyup="shift_cursor(event,'confirm')"  >
                                     <span id="pass_msg" style="display:none" class="text-danger"></span>
                                  </div>
                               </div>
                               <div class="form-group">
-                                 <label for="confirm" class="col-sm-4 control-label"><?= $this->lang->line('confirm_password'); ?><label class="text-danger">*</label></label>
+                                 <label for="confirm" class="col-sm-4 control-label"><?= $this->lang->line('confirm_password'); ?>
+                                 <?php if(empty($q_id)){ ?>
+                                 <label class="text-danger">*</label>
+                                 <?php }?>
+                              </label>
                                  <div class="col-sm-8">
                                     <input type="password" class="form-control input-sm" <?php print $disabled; ?> id="confirm" name="confirm" placeholder="">
                                     <span id="confirm_msg" style="display:none" class="text-danger"></span>

@@ -334,7 +334,7 @@ class Reports_model extends CI_Model {
 	}
 	public function show_stock_report(){
 		extract($_POST);
-
+		
 		
 		$this->db->select("
 							a.item_code,
@@ -359,6 +359,10 @@ class Reports_model extends CI_Model {
 		if(!empty($category_id)){
 			$this->db->where("a.category_id",$category_id);
 		}
+
+		if(!empty($item_id)){
+			$this->db->where("a.id",$item_id);
+		  }
 		
 		//echo $this->db->get_compiled_select();exit();
 		
@@ -1341,8 +1345,11 @@ class Reports_model extends CI_Model {
 			$tot_sales_return_qty=0;
 			$grand_profit=0;
 			$tot_net_profit=0;
+			 
 			foreach ($q1->result() as $res1) {
 				$sales_id = $res1->sales_id;
+
+				//echo "<br>--> ".$res1->item_id;continue;	
 				/*Purchase Return Quantity*/
 				$purchase_return_qty=$this->db->query("
 						SELECT COALESCE(sum(return_qty),0) as return_qty

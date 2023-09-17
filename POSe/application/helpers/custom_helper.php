@@ -3,7 +3,7 @@
     return false;
   }
   function app_version(){
-    return '2.3';
+    return '2.4';
   }
   
   function sql_mode(){
@@ -185,4 +185,52 @@
     // total no. seconds 60/60/24 to get  
     // number of days 
     return ($end_date - $start_date)/60/60/24; 
+  }
+  function get_item_details($item_id){
+    $CI =& get_instance();
+    return $CI->db->select("*")
+            ->from("db_items")
+            ->where("id=",$item_id)->get()->row();
+  }
+
+  function get_country($country_id=''){
+    $CI =& get_instance();
+    if(trim($country_id) == '') { return null; }
+    $Q1 = $CI->db->select("*")
+            ->from("db_country")
+            ->where("id=",$country_id)->get();
+    if($Q1->num_rows()>0){
+      return $Q1->row()->country;
+    }
+    return null;
+  }
+
+  function get_state($state_id=''){
+    $CI =& get_instance();
+    if(trim($state_id) == '') { return null; }
+    $Q1 = $CI->db->select("*")
+            ->from("db_states")
+            ->where("id=",$state_id)->get();
+    if($Q1->num_rows()>0){
+      return $Q1->row()->country;
+    }
+    return null;
+  }
+  function get_sales_details($sales_id){
+    $CI =& get_instance();
+    return $CI->db->select('*')->from('db_sales')->where('id',$sales_id)->get()->row();
+  }
+
+  function permissions($permissions=''){
+    $CI =& get_instance();
+    //If he the Admin
+    if($CI->session->userdata('inv_userid')==1){
+      return true;
+    }
+
+    $tot=$CI->db->query('SELECT count(*) as tot FROM db_permissions where permissions="'.$permissions.'" and role_id='.$CI->session->userdata('role_id'))->row()->tot;
+    if($tot==1){
+      return true;
+    }
+     return false;
   }

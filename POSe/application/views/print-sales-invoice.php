@@ -7,7 +7,7 @@
 
 <style>
 table, th, td {
-    border: 1px solid black;
+    border: 0.5px solid black;
     border-collapse: collapse;
     font-family: 'Open Sans', 'Martel Sans', sans-serif;
 }
@@ -36,6 +36,7 @@ body{
     $company_address=$res1->address;
     $company_gst_no=$res1->gst_no;
     $company_vat_no=$res1->vat_no;
+    $terms_and_conditions=$res1->sales_terms_and_conditions;
 
     $q4=$this->db->query("select sales_invoice_footer_text from db_sitesettings where id=1");
     $res4=$q4->row();
@@ -100,11 +101,26 @@ body{
     $payment_status=$res3->payment_status;
     
     if(!empty($customer_country)){
-      $customer_country = $this->db->query("select country from db_country where id='$customer_country'")->row()->country;  
+      $Query1 = $this->db->query("select country from db_country where id='$customer_country'");
+      if($Query1->num_rows()>0){
+        $customer_country = $Query1->row()->country;  
+      }
+      else{
+        $customer_country = '';
+      }
     }
     if(!empty($customer_state)){
-      $customer_state = $this->db->query("select state from db_states where id='$customer_state'")->row()->state;  
+      $Query1 = $this->db->query("select state from db_states where id='$customer_state'");
+      if($Query1->num_rows()>0){
+        $customer_state = $Query1->row()->state;  
+      }
+      else{
+        $customer_state = '';
+      }
+
+       
     }
+    $invoice_name = (strtoupper($sales_status) == strtoupper("Quotation")) ? "Quotation" : "Invoice";
     
 
     ?>
@@ -122,13 +138,14 @@ body{
             <?php echo (!empty(trim($company_gst_no))) ? $this->lang->line('gst_number').": ".$company_gst_no."<br>" : '';?>
             <?php echo (!empty(trim($company_vat_no))) ? $this->lang->line('vat_number').": ".$company_vat_no."<br>" : '';?>
           </th>
-          <th colspan="5" rowspan="1"><b style="text-transform: capitalize;"><?= $this->lang->line('sales_invoice'); ?> </b>(<?=$sales_status;?>)</th>
+          <th colspan="5" rowspan="1"><b style="text-transform: capitalize;"><?=$invoice_name;?></th>
             
       </tr>
       <tr>
           <th colspan="3" rowspan="1">
               <?= $this->lang->line('invoice_no'); ?> : <?php echo "$sales_code"; ?><br>
-              <?= $this->lang->line('reference_no'); ?> : <?php echo "$reference_no"; ?>
+              <?= $this->lang->line('reference_no'); ?> : <?php echo "$reference_no"; ?><br>
+              <?= $this->lang->line('payment_status'); ?> : <?php echo "$payment_status"; ?>
           </th>  
           <th colspan="2" rowspan="1"><?= $this->lang->line('date'); ?> : <?php echo show_date($sales_date)." ".$created_time; ?></th>
       </tr>
@@ -286,6 +303,16 @@ body{
   
 </td>
   </tr>
+
+  <?php if(!empty(trim($terms_and_conditions))){ ?>
+    <tr>
+      <td colspan="10" style="">
+        <span><b> <?= $this->lang->line('terms_and_conditions'); ?></b></span><br>
+        <span style='font-size: 8px;'><?= nl2br($terms_and_conditions);  ?></span>
+      </td>
+    </tr>
+  <?php } ?>
+
 
   <tr>
     <td colspan="5" style="height:100px;">

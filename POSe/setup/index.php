@@ -36,7 +36,7 @@
 
 		?>
 			<form class="border border-light p-5">
-				<legend>Select Options to Continue | <a href="https://cutt.ly/PLFZenO" target="_blank">NULLED Web Community</a></legend>
+				<legend>Select Options to Continue</legend>
 
 
 

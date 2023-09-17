@@ -1,12 +1,14 @@
 <?php
 function NumberToWords($no){ 
+    $CI =& get_instance();
   $number_to_words_format = get_site_details()->number_to_words;
   
   if($number_to_words_format=='Indian'){
     return indianCurrency($no);
   }
   else{
-    return defaultCurrency($no);
+    return foreign_currency($no,strtoupper($CI->session->userdata('CURRENCY_CODE')));
+    //return defaultCurrency($no);
   }
 }
 

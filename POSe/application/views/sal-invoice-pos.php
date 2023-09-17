@@ -37,6 +37,12 @@
     $company_gst_no		=$res1->gst_no;//Goods and Service Tax Number (issued by govt.)
     $company_vat_number		=$res1->vat_no;//Goods and Service Tax Number (issued by govt.)
 
+
+    $q4=$this->db->query("select sales_invoice_footer_text from db_sitesettings where id=1");
+    $res4=$q4->row();
+    $sales_invoice_footer_text=$res4->sales_invoice_footer_text;
+
+
   	$q3=$this->db->query("SELECT a.sales_due,a.customer_name,a.mobile,a.phone,a.gstin,a.tax_number,a.email,
                            a.opening_balance,a.country_id,a.state_id,
                            a.postcode,a.address,b.sales_date,b.created_time,b.reference_no,
@@ -67,8 +73,8 @@
     $customer_mobile=$res3->mobile;
     $customer_phone=$res3->phone;
     $customer_email=$res3->email;
-    $customer_country=$res3->country_id;
-    $customer_state=$res3->state_id;
+    $customer_country=get_country($res3->country_id);
+    $customer_state=get_state($res3->state_id);
     $customer_address=$res3->address;
     $customer_postcode=$res3->postcode;
     $customer_gst_no=$res3->gstin;
@@ -108,10 +114,24 @@
     }
 
     if(!empty($customer_country)){
-      $customer_country = $this->db->query("select country from db_country where id='$customer_country'")->row()->country;  
+    	$Query1 = $this->db->query("select country from db_country where id='$customer_country'");
+    	if($Query1->num_rows()>0){
+      	$customer_country = $Query1->get()->row()->country;  
+    	}
+    	else{
+    		$customer_country = '';
+    	}
     }
     if(!empty($customer_state)){
-      $customer_state = $this->db->query("select state from db_states where id='$customer_state'")->row()->state;  
+    	$Query1 = $this->db->query("select state from db_states where id='$customer_state'");
+    	if($Query1->num_rows()>0){
+      	$customer_state = $Query1->get()->row()->state;  
+    	}
+    	else{
+    		$customer_state = '';
+    	}
+
+       
     }
 
     
@@ -282,10 +302,16 @@
 						<td style=" padding-left: 2px; padding-right: 2px;" colspan="5" align="right"><?= $this->lang->line('customer_due'); ?></td>
 						<td style=" padding-left: 2px; padding-right: 2px;" align="right"><?= number_format($customer_due,2,'.',''); ?></td>
 					</tr>
-					
-					<tr>
-						<td colspan="6" align="center">----------<?= $this->lang->line('thanks_you_visit_again'); ?>----------</td>
-					</tr>
+			
+
+					<?php if(!empty($sales_invoice_footer_text)) {?>
+					  <tr>
+					    <td colspan="6" style="text-align: center;">
+					      <b><?= $sales_invoice_footer_text; ?></b>
+					    </td>
+					  </tr>
+					  <?php } ?>
+
 
 					<tr>
 						<td colspan="6" align="center">

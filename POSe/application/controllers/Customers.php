@@ -102,7 +102,7 @@ class Customers extends MY_Controller {
 											if($this->permissions('sales_payment_add'))
 											$str2.='<li>
 												<a title="Pay Opening Balance & Sales Due Payments" class="pointer" onclick="pay_now('.$customers->id.')" >
-													<i class="fa fa-fw fa-money text-blue"></i>Pay Due Payments
+													<i class="fa fa-fw fa-money text-blue"></i>Receive Due Payments
 												</a>
 											</li>';
 											if($this->permissions('sales_return_payment_add'))
@@ -175,6 +175,9 @@ class Customers extends MY_Controller {
 		$this->permission_check_with_msg('sales_payment_delete');
 		$entry_id = $this->input->post('entry_id');
 		echo $this->customers->delete_opening_balance_entry($entry_id);
+	}
+	public function getCustomers($id=''){
+		echo $this->customers->getCustomersJson($id);
 	}
 
 }

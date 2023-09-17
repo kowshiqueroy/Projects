@@ -847,9 +847,31 @@ class Updates extends CI_Controller {
 			$q1 = $this->db->query("UPDATE `db_sitesettings` SET `version` = '2.3' WHERE `id` = '1'");if(!$q1){ echo "failed"; exit();}
 		}//End 2.3 end
 
+		//2.4
+		if($this->get_current_version_of_app_db()=='2.3'){
+			$q1 = $this->db->query("UPDATE `db_sitesettings` SET `version` = '2.4' WHERE `id` = '1'");if(!$q1){ echo "failed"; exit();}
 
-		/*; */
 
+			//Delete multiple records
+			$this->delete_extra_items();
+
+			$q1 = $this->db->query("ALTER TABLE `db_salesitems` ADD FOREIGN KEY (`item_id`) REFERENCES `db_items`(`id`) ON UPDATE CASCADE ON DELETE CASCADE; ");if(!$q1){ echo "failed"; exit();}
+
+			$q1 = $this->db->query("ALTER TABLE `db_salesitems` ADD FOREIGN KEY (`sales_id`) REFERENCES `db_sales`(`id`) ON UPDATE CASCADE ON DELETE CASCADE; ");if(!$q1){ echo "failed"; exit();}
+
+			$q1 = $this->db->query("ALTER TABLE `db_salesitemsreturn` ADD FOREIGN KEY (`item_id`) REFERENCES `db_items`(`id`) ON UPDATE CASCADE ON DELETE CASCADE;  ");if(!$q1){ echo "failed"; exit();}
+
+			$q1 = $this->db->query("ALTER TABLE `db_salesitemsreturn` ADD FOREIGN KEY (`return_id`) REFERENCES `db_salesreturn`(`id`) ON UPDATE CASCADE ON DELETE CASCADE, ADD FOREIGN KEY (`sales_id`) REFERENCES `db_sales`(`id`) ON UPDATE CASCADE ON DELETE CASCADE;  ");if(!$q1){ echo "failed"; exit();}
+			$q1 = $this->db->query("ALTER TABLE `db_purchaseitems` ADD FOREIGN KEY (`purchase_id`) REFERENCES `db_purchase`(`id`) ON UPDATE CASCADE ON DELETE CASCADE, ADD FOREIGN KEY (`item_id`) REFERENCES `db_items`(`id`) ON UPDATE CASCADE ON DELETE CASCADE;   ");if(!$q1){ echo "failed"; exit();}
+
+			$q1 = $this->db->query("ALTER TABLE `db_purchaseitemsreturn` ADD FOREIGN KEY (`purchase_id`) REFERENCES `db_purchase`(`id`) ON UPDATE CASCADE ON DELETE CASCADE, ADD FOREIGN KEY (`return_id`) REFERENCES `db_purchasereturn`(`id`) ON UPDATE CASCADE ON DELETE CASCADE, ADD FOREIGN KEY (`item_id`) REFERENCES `db_items`(`id`) ON UPDATE CASCADE ON DELETE CASCADE; ");if(!$q1){ echo "failed"; exit();}
+			
+			$q1 = $this->db->query("ALTER TABLE `db_company` ADD COLUMN `signature` TEXT NULL AFTER `upi_code`, ADD COLUMN `show_signature` INT(1) DEFAULT 0 NULL AFTER `signature`; ");if(!$q1){ echo "failed"; exit();}
+
+		}//End 2.3 end
+
+
+		
 
 
 		
@@ -858,6 +880,45 @@ class Updates extends CI_Controller {
 		redirect(base_url('login'),'refresh');
 		//echo "success";
 
+
+	}
+
+	public function delete_extra_items_from_table($table_name){
+		$q1 = $this->db->select("id, item_id")->group_by("item_id")->from($table_name)->get();
+		
+		$ids_array = array();
+
+		if($q1->num_rows()>0){
+
+			foreach($q1->result() as $res1){
+
+				$this->db->where('id', $res1->item_id);
+				$this->db->from('db_items');
+				$tot_records = $this->db->count_all_results();
+
+				if($tot_records==0){
+					$ids_array[] = $res1->item_id;
+				}
+
+
+			}//foreach
+
+			if(count($ids_array)>0){
+				$ids = implode (", ", $ids_array);
+				$this->db->where("item_id in (".$ids.")")->delete($table_name);
+			}
+
+		}//if
+		return true;
+	}
+
+	
+	public function delete_extra_items(){
+
+		$this->delete_extra_items_from_table("db_salesitems");
+		$this->delete_extra_items_from_table("db_salesitemsreturn");
+		$this->delete_extra_items_from_table("db_purchaseitems");
+		$this->delete_extra_items_from_table("db_purchaseitemsreturn");
 
 	}
 

@@ -44,7 +44,7 @@ $("#save,#update").on("click",function(e){
       check_field("email");
       check_field("role_id");
 
-      if(this_id!='update'){
+      if(this_id=='save'){
         check_field("pass");
         check_field("confirm");
         if(newpass!='' && (newpass!=retypepass))
@@ -52,6 +52,15 @@ $("#save,#update").on("click",function(e){
            toastr["warning"]("Warning! Password Mismatched!");
            return;
         }
+      }
+
+      if(this_id=='update'){
+        if(newpass!=''){
+            if(newpass!=retypepass){
+                toastr["warning"]("Warning! Password Mismatched!");
+                return;
+            }
+        } 
       }
       
       

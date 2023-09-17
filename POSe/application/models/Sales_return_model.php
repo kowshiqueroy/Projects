@@ -27,6 +27,11 @@ class Sales_return_model extends CI_Model {
 		//$this->db->where('c.id=a.warehouse_id');
 		$this->db->join('db_sales as c','c.id=a.sales_id','left');
 		
+		if(!permissions('view_all_users_sales_return_invoices')){
+	      	$this->db->where("upper(a.created_by)",strtoupper($this->session->userdata('inv_username')));
+	      }
+	      
+	      
 
 		$i = 0;
 	
@@ -597,7 +602,7 @@ class Sales_return_model extends CI_Model {
 		$info['item_tax_id'] = $q3->id;
 		$info['item_tax'] = $q3->tax;
 		$info['item_tax_type'] = $q1->row()->tax_type;
-		$info['purchase_price'] = $q1->row()->purchase_price;
+		$info['purchase_price'] = $q1->row()->price;
 		$info['item_discount'] = '';
 
 		$info['item_tax_amt'] = ($q1->row()->tax_type=='Inclusive') ? calculate_inclusive($q1->row()->sales_price,$q3->tax) :calculate_exclusive($q1->row()->sales_price,$q3->tax);
@@ -710,7 +715,7 @@ class Sales_return_model extends CI_Model {
                </td>
                
                <!-- Unit Cost -->
-               <td id="td_<?=$rowcount;?>_10"><input type="text" name="td_data_<?=$rowcount;?>_10" id="td_data_<?=$rowcount;?>_10" class="form-control text-right no-padding only_currency text-center"  value="<?=$item_sales_price;?>"></td>
+               <td id="td_<?=$rowcount;?>_10"><input type="text" name="td_data_<?=$rowcount;?>_10" id="td_data_<?=$rowcount;?>_10" class="form-control text-right no-padding only_currency text-center" onkeyup="calculate_tax(<?=$rowcount;?>)" value="<?=$item_sales_price;?>"></td>
 
                <!-- Discount -->
                <td id="td_<?=$rowcount;?>_8">

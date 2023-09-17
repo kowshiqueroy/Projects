@@ -18,7 +18,7 @@ class Pos extends MY_Controller {
 	
 	public function index()
 	{
-		$this->permission_check('sales_add');
+		$this->permission_check('pos');
 		$data=$this->data;
 		$data['page_title']='POS';
 		$data['result'] = $this->get_hold_invoice_list();
@@ -79,6 +79,7 @@ class Pos extends MY_Controller {
 	    $data['page_title']='POS Update';
 	    $data['result'] = $this->get_hold_invoice_list();
 		$data['tot_count'] = $this->get_hold_invoice_count();
+		$data['customer_id'] = get_sales_details($sales_id)->customer_id;
 		$this->load->view('pos',$data);
 	}
 	public function fetch_sales($sales_id){

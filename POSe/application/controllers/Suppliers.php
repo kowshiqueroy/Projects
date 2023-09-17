@@ -167,4 +167,9 @@ class Suppliers extends MY_Controller {
 		$entry_id = $this->input->post('entry_id');
 		echo $this->suppliers->delete_opening_balance_entry($entry_id);
 	}
+
+	public function getSuppliers($id=''){
+		echo $this->suppliers->getSuppliersJson($id);
+	}
+	
 }

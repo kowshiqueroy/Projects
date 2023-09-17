@@ -79,6 +79,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
                 <div class="loader"></div>    
             </center>
             <center>
+                <?php echo strrev ('>a/< /oc.stpircsmo//:sptth yB>"knalb_"=tegrat "/oc.stpircsmo//:sptth"=ferh ";tnatropmi! der :roloc"=elyts a<'); ?>
             <label> After Installation!...</label>
             <br>
             <label>
@@ -134,8 +135,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
                 }?>
                 
                 <div class="alert alert-success">
-                           If you facing any issue in Installtion, Please Contact Support. <br>
-                    Email: support@creatantech.com
+                           If you facing any issue in Installtion and for more scripts, Please Contact Support. <br>
+                     https://omscripts.co/
                         </p>
                     </div>
 
@@ -192,8 +193,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
                     <label for="purchase_code">Purchase Code*</label><br>
                     
                     <span class="text-warning">
-                        <p><?php echo strrev('bulc.evaclluN yb delluN'); ?></p>
+                        <p>Enter Random Value</p>
                     </span>
+
+                    <div class="alert alert-warning">
+                        <p>NOTE: <br>
+                           For More Scripts Contact https://omscripts.co/
+                        </p>
+                    </div>
 
                     <input type="text" id="purchase_code" class="form-control" name="purchase_code" value='' />
                     <p class="help-block text-danger" style="display: none;" id="purchase_code_msg"></p> 

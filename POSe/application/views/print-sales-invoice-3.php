@@ -77,6 +77,9 @@ body { margin: 5px; }
     $company_logo=$res1->company_logo;
     $upi_code=$res1->upi_code;
     $upi_id=$res1->upi_id;
+    $image_file=($res1->show_signature && !empty($res1->signature)) ? $res1->signature : '';
+
+
     if(!empty($upi_code)){
       //if(file_exists(base_url('uploads/upi/'.$upi_code))){
         $upi_code = base_url('uploads/upi/'.$upi_code);
@@ -137,8 +140,10 @@ body { margin: 5px; }
     $reference_no=$res3->reference_no;
     $sales_code=$res3->sales_code;
     $sales_note=$res3->sales_note;
-    $sales_status=$res3->sales_status;
+    $sales_status=trim($res3->sales_status);
     $customer_id=$res3->id;
+
+
 
     
     $subtotal=$res3->subtotal;
@@ -155,19 +160,36 @@ body { margin: 5px; }
     $payment_status=$res3->payment_status;
     
     if(!empty($customer_country)){
-      $customer_country = $this->db->query("select country from db_country where id='$customer_country'")->row()->country;  
+      $Query1 = $this->db->query("select country from db_country where id='$customer_country'");
+      if($Query1->num_rows()>0){
+        $customer_country = $Query1->row()->country;  
+      }
+      else{
+        $customer_country = '';
+      }
     }
     if(!empty($customer_state)){
-      $customer_state = $this->db->query("select state from db_states where id='$customer_state'")->row()->state;  
+      $Query1 = $this->db->query("select state from db_states where id='$customer_state'");
+      if($Query1->num_rows()>0){
+        $customer_state = $Query1->row()->state;  
+      }
+      else{
+        $customer_state = '';
+      }
     }
-    
 
+    $previous_due=$sales_due-($grand_total-$paid_amount);//$res3->customer_previous_due;
+    $previous_due = ($previous_due>0) ? $previous_due : 0;
+
+
+    $invoice_name = (strtoupper($sales_status) == strtoupper("Quotation")) ? "Quotation" : "Invoice";
+    
     ?>
 
 <caption>
       <center>
         <span style="font-size: 18px;text-transform: uppercase;">
-          Tax Invoice
+          <?= $invoice_name ?>
         </span>
       </center>
 </caption>
@@ -206,13 +228,13 @@ body { margin: 5px; }
                     
                         <tr>
                           <td colspan="4">
-                            Invoice No.<br>
+                            <?= $this->lang->line('invoice'); ?> <br>
                             <span style="font-size: 10px;">
                               <b><?php echo "$sales_code"; ?></b>
                             </span>
                           </td>
                           <td colspan="4">
-                            Dated<br>
+                            <?= $this->lang->line('date'); ?><br>
                             <span style="font-size: 10px;">
                               <b><?php echo show_date($sales_date); ?></b>
                             </span>
@@ -220,13 +242,22 @@ body { margin: 5px; }
                         </tr>
                         <tr>
                           <td colspan="8">
-                            Reference No.<br>
-                            <span style="font-size: 10px;">
-                              <b><?php echo "$reference_no"; ?></b>
-                            </span>
+                            
+                              <b><?= $this->lang->line('payment_status'); ?> : </b><?php echo "$payment_status"; ?>
+                            
                           </td>
                           
                         </tr>
+                        <tr>
+                          <td colspan="8">
+                            
+                              <b><?= $this->lang->line('reference_no'); ?> : </b><?php echo "$reference_no"; ?>
+                            
+                          </td>
+                          
+                        </tr>
+
+                        
                         
                         <tr>
                           <td colspan="8">
@@ -328,15 +359,30 @@ body { margin: 5px; }
               $tot_unit_total_cost=0;
               $tot_total_cost=0;
               $tot_before_tax=0;
-              $q2=$this->db->query("SELECT a.description,c.item_name, a.sales_qty,
-                                  a.price_per_unit, b.tax,b.tax_name,a.tax_amt,
-                                  a.discount_input,a.discount_amt, a.unit_total_cost,
-                                  a.total_cost , d.unit_name,c.sku,c.hsn
-                                  FROM 
-                                  db_salesitems AS a,db_tax AS b,db_items AS c , db_units as d
-                                  WHERE 
-                                  d.id = c.unit_id and
-                                  c.id=a.item_id AND b.id=a.tax_id AND a.sales_id='$sales_id'");
+  
+              $this->db->select("a.sales_qty,
+                                 a.tax_type,
+                                 a.price_per_unit,
+                                 a.tax_amt,
+                                 a.discount_input,
+                                 a.discount_type,
+                                 a.discount_amt, 
+                                 a.unit_total_cost,
+                                 a.total_cost,
+                                 b.tax,
+                                 b.tax_name,
+                                 c.item_name,
+                                 a.description,
+                                 c.hsn
+                                 ");
+              $this->db->from("db_salesitems a");
+              $this->db->where("a.sales_id",$sales_id);
+              $this->db->join("db_tax b","b.id=a.tax_id","left");
+              $this->db->join("db_items c","c.id=a.item_id","left");
+
+              $q2 = $this->db->get();
+
+
               foreach ($q2->result() as $res2) {
                   $discount = (empty($res2->discount_input)||$res2->discount_input==0)? '0':$res2->discount_input."%";
                   $discount_amt = (empty($res2->discount_amt)||$res2->discount_input==0)? '0':$res2->discount_amt."";
@@ -425,6 +471,12 @@ body { margin: 5px; }
     <td colspan="14" class='text-right'><b><?= $this->lang->line('invoice_due'); ?></b></td>
     <td colspan="2" class='text-right' ><b><?php echo number_format($grand_total-$paid_amount,2); ?></b></td>
   </tr>
+
+  <tr>
+    <td colspan="14" class='text-right'><b><?= $this->lang->line('previous_due'); ?></b></td>
+    <td colspan="2" class='text-right' ><b><?php echo number_format($previous_due,2); ?></b></td>
+  </tr>
+
   <tr>
     <td colspan="14" class='text-right'><b><?= $this->lang->line('customer_total_due'); ?></b></td>
     <td colspan="2" class='text-right' ><b><?php echo number_format($total_due,2); ?></b></td>
@@ -472,11 +524,11 @@ body { margin: 5px; }
                           </td>
                           <!-- if UPI Exist then only show this Row -->
                         <?php if(!empty($upi_id) && show_upi_code()) {?>
-                          <td colspan="5" style="text-align: left;">
+                          <td colspan="5" style="text-align: center;">
 
                             <b><?= "UPI" ?>: <?=$upi_id;  ?></b><br/>
                             <?php if(!empty($upi_code) && show_upi_code()) {?>
-                              <img width="90%" src="<?= $upi_code;?>"><br>
+                              <img width="70%" src="<?= $upi_code;?>"><br>
                             <?php }?>
                           </td>
                         </tr>
@@ -487,7 +539,11 @@ body { margin: 5px; }
                             <span><b> <?= $this->lang->line('customer_signature'); ?></b></span>
                           </td>
                           <td colspan='8'>
-                            <span><b> <?= $this->lang->line('authorised_signatory'); ?></b></span>
+                            <span><b> <?= $this->lang->line('authorised_signatory'); ?></b></span><br>
+                            <?php if(!empty($image_file)) {?>
+                            <img src="<?= base_url($image_file);?>" width='70%' height='auto'>
+                          <?php } ?>
+
                           </td>
                         </tr>
                      

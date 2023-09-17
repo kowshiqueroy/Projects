@@ -320,26 +320,8 @@
                 <div class="col-md-6">
                   <div class="input-group">
                     <span class="input-group-addon" title="Customer"><i class="fa fa-user"></i></span>
-                     <select class="form-control select2" id="customer_id" name="customer_id"  style="width: 100%;" onkeyup="shift_cursor(event,'expense_for')" >
-                        <?php
-                        $query1="select * from db_customers where status=1";
-                        $q1=$this->db->query($query1);
-                        
-                        if($q1->num_rows($q1)>0)
-                         {   
-                             foreach($q1->result() as $res1)
-                           {
-                             echo "<option  value='".$res1->id."'>".$res1->customer_name."</option>";
-                           }
-                         }
-                         else
-                         {
-                            ?>
-                            <option value="">No Records Found</option>
-                            <?php
-                         }
-                        ?>
-                              </select>
+                     <select class="form-control select2" id="customer_id" name="customer_id"  style="width: 100%;" >
+                    </select>
                     <span class="input-group-addon pointer" data-toggle="modal" data-target="#customer-modal" title="New Customer?"><i class="fa fa-user-plus text-primary fa-lg"></i></span>
                   </div>
                     <span class="customer_points text-success" style="display: none;"></span>
@@ -349,7 +331,7 @@
                 <div class="col-md-6">
                   <div class="input-group">
                     <span class="input-group-addon" title="Select Items"><i class="fa fa-barcode"></i></span>
-                     <input type="text" class="form-control" placeholder="Item name/Barcode/Itemcode [Shift+S]" id="item_search">
+                     <input type="text" class="form-control" placeholder="Item name/Barcode/Itemcode [Ctrl+Shift+S]" id="item_search">
                   </div>
                 </div>                
               </div><!-- row end -->
@@ -452,26 +434,26 @@
                   <div class="col-md-12 text-right">
 
                     <div class="col-sm-3">
-                      <button type="button" id="hold_invoice" name="" class="btn bg-maroon btn-block btn-flat btn-lg" title="Hold Invoice [Shift+H]">
+                      <button type="button" id="hold_invoice" name="" class="btn bg-maroon btn-block btn-flat btn-lg" title="Hold Invoice [Ctrl+Shift+H]">
                       <i class="fa fa-hand-paper-o" aria-hidden="true"></i>
                        Hold
                     </button>
                     </div>
                     <div class="col-sm-3">
-                      <button type="button" id="" name="" class="btn btn-primary btn-block btn-flat btn-lg show_payments_modal" title="Multiple Payments [Shift+M]">
+                      <button type="button" id="" name="" class="btn btn-primary btn-block btn-flat btn-lg show_payments_modal" title="Multiple Payments [Ctrl+Shift+M]">
                             <i class="fa fa-credit-card" aria-hidden="true"></i>
                              Multiple
                           </button>
                     </div>
                     <div class="col-sm-3">
-                      <button type="button" id="<?php echo "show_cash_modal";?>" name="" class="btn btn-success btn-block btn-flat btn-lg shift_c" title="By Cash & Save [Shift+C]">
+                      <button type="button" id="<?php echo "show_cash_modal";?>" name="" class="btn btn-success btn-block btn-flat btn-lg shift_c" title="By Cash & Save [Ctrl+Shift+C]">
                             <i class="fa fa-money" aria-hidden="true"></i>
                              <?php echo $btn_name;?>
                           </button>
                     </div>
 
                     <div class="col-sm-3">
-                      <button type="button" id="pay_all" name="" class="btn bg-purple btn-block btn-flat btn-lg shift_a" title="By Cash & Save [Shift+A]">
+                      <button type="button" id="pay_all" name="" class="btn bg-purple btn-block btn-flat btn-lg shift_a" title="By Cash & Save [Ctrl+Shift+A]">
                             <i class="fa fa-money" aria-hidden="true"></i>
                              Pay All
                           </button>
@@ -557,6 +539,24 @@
               </div><!-- row end -->
 
 
+              <br>
+              <div class="row">
+
+                <div class="col-md-12">
+                  <div class="input-group input-group-md">
+                   
+                      <input type="text" class="form-control" data-toggle="tooltip" title="Enter Item Name" placeholder="Item Name" id="item_name" name="item_name">
+
+                          <span class="input-group-btn">
+                            <button type="button" class="btn text-blue btn-flat reset_item_name" title="Reset Item Name" data-toggle="tooltip" data-placement="top">
+                              <i class="fa fa-undo"></i>
+                            </button>
+                          </span>
+                    </div>
+                </div>               
+
+              </div><!-- row end -->
+
              
               <div class="row">
                 <div class="col-md-12">
@@ -612,7 +612,8 @@
 
 <script src="<?php echo $theme_link; ?>js/fullscreen.js"></script>
 <script src="<?php echo $theme_link; ?>js/modals.js"></script>
-<script src="<?php echo $theme_link; ?>js/pos.js?v=164"></script>
+<script src="<?php echo $theme_link; ?>js/pos.js"></script>
+<script src="<?php echo $theme_link; ?>js/ajaxselect/customer_select_ajax.js"></script>  
 
 
 <!-- DROP DOWN -->
@@ -621,6 +622,21 @@
 
 
 <script>
+
+  //Customer Selection Box Search
+         function getCustomerSelectionId() {
+           return '#customer_id';
+         }
+
+         $(document).ready(function () {
+
+            var customer_id = "<?= (!empty($customer_id)) ? $customer_id : '';  ?>";
+            
+            autoLoadFirstCustomer(customer_id);
+
+         });
+         //Customer Selection Box Search - END
+
   $("#other_charges").keyup(function(event) {
     final_total();
   });
@@ -1057,6 +1073,10 @@ $(document).ready(function(){
       get_details(null,show_only_searched);
   });
 
+  $("#item_name").on("keyup",function () {
+      get_details(null,show_only_searched);
+  });
+
   //DISCOUNT UPDATE
   $(".discount_update").on("click",function () {
       final_total();
@@ -1078,6 +1098,10 @@ $(document).ready(function(){
   $(".reset_brands").on("click",function(){
       $("#brand_id").val('').trigger("change");
   });
+  $(".reset_item_name").on("click",function(){
+      $("#item_name").val('');
+      $("#brand_id").val('').trigger("change");
+  });
 
 
   //UPDATE PROCESS START
@@ -1090,14 +1114,14 @@ $(document).ready(function(){
       $('#pos-form-tbody').append(result[0]);
       $('#discount_input').val(result[1]);
       $('#discount_type').val(result[2]);
-      $('#customer_id').val(result[3]).select2();
+      //$('#customer_id').val(result[3]).select2();
       $('#temp_customer_id').val(result[3]);
       $('#other_charges').val(result[4]);
       $('#sales_date').val(result[5]);
       $("#hidden_rowcount").val(parseFloat($(".items_table tr").length)-1);
       
       $(".overlay").remove();
-      $("#customer_id").trigger("change");
+      //$("#customer_id").trigger("change");
       if(result[5]==1){
         $( "#binvoice" ).prop( "checked", true );
         $('#binvoice').parent('div').addClass('checked');
@@ -1373,7 +1397,7 @@ $('#order_date,#delivery_date,#cheque_date').datepicker({
 <script type="text/javascript">
  
 
-  shortcut.add("Shift+m",function(e) {
+  shortcut.add("Ctrl+Shift+m",function(e) {
         e.preventDefault();
         $(".show_payments_modal").trigger('click');
     },{
@@ -1382,7 +1406,7 @@ $('#order_date,#delivery_date,#cheque_date').datepicker({
         'target':document
       });
 
-  shortcut.add("Shift+h",function(e) {
+  shortcut.add("Ctrl+Shift+h",function(e) {
         e.preventDefault();
         $("#hold_invoice").trigger('click');
     },{
@@ -1390,7 +1414,7 @@ $('#order_date,#delivery_date,#cheque_date').datepicker({
         'propagate':true,
         'target':document
       });
-  shortcut.add("Shift+c",function(e) {
+  shortcut.add("Ctrl+Shift+c",function(e) {
         e.preventDefault();
         $(".shift_c").trigger('click');
     },{
@@ -1398,7 +1422,7 @@ $('#order_date,#delivery_date,#cheque_date').datepicker({
         'propagate':true,
         'target':document
       });
-  shortcut.add("Shift+a",function(e) {
+  shortcut.add("Ctrl+Shift+a",function(e) {
         e.preventDefault();
         $(".shift_a").trigger('click');
     },{
@@ -1407,7 +1431,7 @@ $('#order_date,#delivery_date,#cheque_date').datepicker({
         'target':document
       });
 
-  shortcut.add("Shift+s",function(e) {
+  shortcut.add("Ctrl+Shift+s",function(e) {
         e.preventDefault();
         $("#item_search").focus();
     },{
@@ -1444,7 +1468,7 @@ function get_details(last_id='',show_only_searched=false){
       data:{
         last_id       : (!show_only_searched) ? last_id : '',
         id            : $("#category_id").val(),
-        //search_it  : $("#search_it").val(),
+        item_name  : $("#item_name").val(),
         brand_id  : $("#brand_id").val(),
       },
       beforeSend: function(){

@@ -111,6 +111,14 @@ class Users_model extends CI_Model {
 		}
 		$this->db->set("mobile",$mobile);
 		$this->db->set("email",$email);
+
+		
+		if(!empty($pass) && !empty($confirm) ){
+			if($pass == $confirm){
+				$this->db->set("password",md5($pass));
+			}
+		}
+
 		$this->db->where("id",$q_id);
 		$q1 = $this->db->update("db_users");
 

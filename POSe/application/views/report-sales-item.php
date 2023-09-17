@@ -40,6 +40,9 @@
             <!-- form start -->
             <form class="form-horizontal" id="report-form" onkeypress="return event.keyCode != 13;">
               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+
+              <input type="hidden" id="base_url" value="<?php echo $base_url;; ?>">
+              
               <div class="box-body">
         <div class="form-group">
         <label for="from_date" class="col-sm-2 control-label"><?= $this->lang->line('from_date'); ?></label>
@@ -71,26 +74,9 @@
           <label for="item_id" class="col-sm-2 control-label"><?= $this->lang->line('item_name'); ?></label>
 
                   <div class="col-sm-3">
-          <select class="form-control select2 " id="item_id" name="item_id" ">
-          <option value="">-All-</option>
-            <?php
-            $q1=$this->db->query("select * from db_items where status=1");
-             if($q1->num_rows()>0)
-             {
-                 foreach($q1->result() as $res1)
-               {
-                 echo "<option value='".$res1->id."'>".$res1->item_name."</option>";
-               }
-             }
-             else
-             {
-                ?>
-                <option value="">No Records Found</option>
-                <?php
-             }
-            ?>
-                  </select>
-          <span id="item_id_msg" style="display:none" class="text-danger"></span>
+                    <select class="form-control select2 " id="item_id" name="item_id">
+                    </select>
+                    <span id="item_id_msg" style="display:none" class="text-danger"></span>
                   </div>
 
                   <label for="category_id" class="col-sm-2 control-label"><?= $this->lang->line('category_name'); ?></label>
@@ -207,6 +193,16 @@
 
 
 <script src="<?php echo $theme_link; ?>js/report-sales-item.js"></script>
+
+<script src="<?php echo $theme_link; ?>js/ajaxselect/item_select_ajax.js"></script>  
+<script>
+   //Item Selection Box Search
+   function getItemSelectionId() {
+     return '#item_id';
+   }
+   //Item Selection Box Search - END
+</script>
+
 
 <!-- Make sidebar menu hughlighter/selector -->
 <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");</script>

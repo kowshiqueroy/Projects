@@ -64,6 +64,13 @@ $('#save,#update,#create').on("click",function (e) {
     }
     //end
 
+   if($("#amount").val()!=''){
+       if($("#payment_type").val()==''){
+         toastr["warning"]("Please Select Payment Type!!");
+         return;
+       }
+   }
+
     var tot_subtotal_amt=$("#subtotal_amt").text();
     var other_charges_amt=$("#other_charges_amt").text();//other_charges include tax calcualated amount
     var tot_discount_to_all_amt=$("#discount_to_all_amt").text();

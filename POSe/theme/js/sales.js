@@ -10,6 +10,8 @@ function shift_cursor(kevent,target){
 
 
 $('#save,#update').on("click",function (e) {
+  var this_id=this.id;
+
 	var base_url=$("#base_url").val().trim();
 
     //Initially flag set true
@@ -64,7 +66,7 @@ $('#save,#update').on("click",function (e) {
     }
     //end
 
-    if($("#customer_id").val().trim()==1){
+    if(this_id=='save' && $("#customer_id").val().trim()==1){
       if(parseFloat($("#total_amt").text())!=parseFloat($("#amount").val())){
         $("#amount").focus();
         toastr["warning"]("Walk-in Customer Should Pay Complete Amount!!");
@@ -82,7 +84,7 @@ $('#save,#update').on("click",function (e) {
     var tot_round_off_amt=$("#round_off_amt").text();
     var tot_total_amt=$("#total_amt").text();
 
-    var this_id=this.id;
+    
     
 			//if(confirm("Do You Wants to Save Record ?")){
 				e.preventDefault();

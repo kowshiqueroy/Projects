@@ -102,7 +102,7 @@
             </ul>
           </li>
           
-          <?php if($CI->permissions('sales_add')) { ?>
+          <?php if($CI->permissions('pos')) { ?>
           <li class="text-center" id="">
             <a title="POS [Shift+P]" href="<?php echo $base_url; ?>pos"><i class="fa fa-plus-square " ></i> POS </a>   
           </li>
@@ -168,7 +168,7 @@
 		
 		
 		<!--<li class="header">SALES</li>-->
-    <?php if($CI->permissions('sales_add')  || $CI->permissions('sales_view') || $CI->permissions('sales_return_view') || $CI->permissions('sales_return_add')) { ?>
+    <?php if($CI->permissions('sales_add')  || $CI->permissions('pos')  || $CI->permissions('sales_view') || $CI->permissions('sales_return_view') || $CI->permissions('sales_return_add')) { ?>
 		<li class="pos-active-li sales-list-active-li sales-active-li sales-return-active-li sales-return-list-active-li treeview">
           <a href="#">
             <i class=" fa fa-shopping-cart text-aqua"></i> <span><?= $this->lang->line('sales'); ?></span>
@@ -177,9 +177,10 @@
             </span>
           </a>
           <ul class="treeview-menu">
-        <?php if($CI->permissions('sales_add')) { ?>
+        <?php if($CI->permissions('pos')) { ?>
         <li class="pos-active-li"><a href="<?php echo $base_url; ?>pos"><i class="fa fa-calculator "></i> <span>POS</span></a></li>
-
+        <?php } ?>
+        <?php if($CI->permissions('sales_add')) { ?>
 		    <li class="sales-active-li"><a href="<?php echo $base_url; ?>sales/add"><i class="fa fa-plus-square-o "></i> <span><?= $this->lang->line('new_sales'); ?></span></a></li>
         <?php } ?>
         
@@ -524,7 +525,10 @@
 		   </ul>
         </li>
         <?php } ?>
+        <?php if($CI->permissions('help')) { ?>
         <li><a href="<?php echo $base_url; ?>help/" target="_blank"  ><i class="fa fa-book "></i> <span><?= $this->lang->line('help'); ?></span></a></li>
+
+        <?php } ?>
       </ul>
     </section>
     <!-- /.sidebar -->

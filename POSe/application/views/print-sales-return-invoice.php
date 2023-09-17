@@ -100,10 +100,24 @@ body{
     $payment_status=$res3->payment_status;
     
     if(!empty($customer_country)){
-      $customer_country = $this->db->query("select country from db_country where id='$customer_country'")->row()->country;  
+      $Query1 = $this->db->query("select country from db_country where id='$customer_country'");
+      if($Query1->num_rows()>0){
+        $customer_country = $Query1->get()->row()->country;  
+      }
+      else{
+        $customer_country = '';
+      }
     }
     if(!empty($customer_state)){
-      $customer_state = $this->db->query("select state from db_states where id='$customer_state'")->row()->state;  
+      $Query1 = $this->db->query("select state from db_states where id='$customer_state'");
+      if($Query1->num_rows()>0){
+        $customer_state = $Query1->get()->row()->state;  
+      }
+      else{
+        $customer_state = '';
+      }
+
+       
     }
     
 

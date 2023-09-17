@@ -33,6 +33,14 @@
               </div> 
                <?php
             endif;
+            if($this->session->flashdata('info')!=''):
+              ?>
+                <div class="alert alert-info alert-dismissable text-center">
+                 <a href="javascript:void()" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong><?= $this->session->flashdata('info') ?></strong>
+              </div> 
+               <?php
+            endif;
             ?>
             <!-- ********** ALERT MESSAGE END******* -->
      </div>

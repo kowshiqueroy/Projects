@@ -4,8 +4,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Login extends MY_Controller {
 	public function __construct(){
 		parent::__construct();
+		$this->php_verification();
+		
 		$this->load_info();
+		//if(get_domain()!=get_dbdomain()){echo appinfo_domain_msg();exit();}
+        //if( appinfo()!=get_dbmid() || appinfo()!="1"){echo appinfo_mid_msg();exit();}
+		is_sql_full_group_by_enabled();
 	}
+
+	public function php_verification(){
+		$phpversion = phpversion();
+		if($phpversion!=7.4){
+			 echo 'Application required PHP Version 7.4.*, Your server loaded with PHP Version '.$phpversion;exit;
+		}
+	}
+
 	public function index()
 	{
 		if($this->session->userdata('logged_in')==1){ redirect(base_url().'dashboard','refresh');	}

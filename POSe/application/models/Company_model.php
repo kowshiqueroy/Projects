@@ -33,6 +33,8 @@ class Company_model extends CI_Model {
 			$data['upi_id']=$query->upi_id;
 			$data['company_logo']=(!empty($query->company_logo)) ? $query->company_logo : base_url('theme/images/no_image2.png');
 			$data['upi_code']=(!empty($query->upi_code)) ? base_url('uploads/upi/'.$query->upi_code) : base_url('theme/images/no_image2.png');
+			$data['signature']=(!empty($query->signature)) ? $query->signature : base_url('theme/images/noimage.png');
+			$data['show_signature']=$query->show_signature;
 			
 
 			return $data;
@@ -91,7 +93,40 @@ class Company_model extends CI_Model {
 	        }
 		}
 		/*End*/
-		$query1="update db_company set company_name='$company_name',mobile='$mobile',phone='$phone',email='$email',country='$country',state='$state',city='$city',postcode='$postcode',address='$address',gst_no='$gstin',vat_no='$vat',website='$website', pan_no='$pan',bank_details='$bank_details',upi_id='$upi_id' $company_logo $upi_code where id=$q_id";
+
+		/*UPI Code uploader*/
+		$signature='';
+		if(!empty($_FILES['signature']['name'])){
+			$config['upload_path']          = './uploads/signature/';
+	        $config['allowed_types']        = 'gif|jpg|jpeg|png';
+	        $config['max_size']             = 1000;
+	        $config['max_width']            = 1000;
+	        $config['max_height']           = 1000;
+
+	        $this->load->library('upload', $config);
+
+	        if ( ! $this->upload->do_upload('signature'))
+	        {
+	                $error = array('error' => $this->upload->display_errors());
+	                return $error['error'];
+	                exit();
+	        }
+	        else
+	        {
+	        	   $signature='uploads/signature/'.$this->upload->data('file_name');
+
+	        	  // $upi_code=$this->upload->data('file_name');
+	        		$signature=" ,signature='$signature' ";
+
+	        }
+		}
+		/*End*/
+
+
+		$show_signature = (isset($show_signature)) ? 1 : 0;
+
+
+		$query1="update db_company set show_signature='$show_signature',company_name='$company_name',mobile='$mobile',phone='$phone',email='$email',country='$country',state='$state',city='$city',postcode='$postcode',address='$address',gst_no='$gstin',vat_no='$vat',website='$website', pan_no='$pan',bank_details='$bank_details',upi_id='$upi_id' $company_logo $upi_code $signature where id=$q_id";
 		
 		if ($this->db->simple_query($query1)){
 		        return "success";

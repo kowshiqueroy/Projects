@@ -249,9 +249,9 @@
                docprint.document.write('font-family:verdana,Arial;color:#000;');
                docprint.document.write('font-family:Verdana, Geneva, sans-serif; font-size:12px;}');
                docprint.document.write('a{color:#000;text-decoration:none;} </style>');
-               docprint.document.write('</head><body onLoad="self.print()"><center>');
+               docprint.document.write('</head><body onLoad="self.print()">');
                docprint.document.write(content_vlue);
-               docprint.document.write('</center></body></html>');
+               docprint.document.write('</body></html>');
                docprint.document.close();
                docprint.focus();
             }

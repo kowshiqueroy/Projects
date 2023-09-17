@@ -139,22 +139,6 @@
                     <div class="form-group">
                        <label for="search_customer_id"><?=$this->lang->line('customers');?> </label></label>
                        <select class="form-control select2" id="search_customer_id" name="search_customer_id"  style="width: 100%;">
-                        <option value="">-All Customers-</option>
-                        <?php
-                                             
-                           $query1="select * from db_customers where status=1";
-                           $q1=$this->db->query($query1);
-                           if($q1->num_rows($q1)>0)
-                              { 
-                               // echo "<option value=''>-Select-</option>";
-                                foreach($q1->result() as $res1)
-                              {
-                                echo "<option value='".$res1->id."'>".$res1->customer_name ."</option>";
-                              }
-                            }
-                           
-                               ?>
-                      
                      </select>
                        <span id="search_customer_id_msg" style="display:none" class="text-danger"></span>
                     </div>
@@ -280,6 +264,9 @@
 <?php include"comman/code_js_datatable.php"; ?>
 <!-- bootstrap datepicker -->
 <script src="<?php echo $theme_link; ?>plugins/datepicker/bootstrap-datepicker.js"></script>
+
+<script src="<?php echo $theme_link; ?>js/ajaxselect/customer_select_ajax.js"></script>  
+
 <script type="text/javascript">
   //Date picker
     $('.datepicker').datepicker({
@@ -289,6 +276,12 @@
     });
 </script>
 <script type="text/javascript">
+  //Customer Selection Box Search
+      function getCustomerSelectionId() {
+        return '#search_customer_id';
+      }
+      //Customer Selection Box Search - END
+
 
   function load_datatable(argument) {
     //datatables

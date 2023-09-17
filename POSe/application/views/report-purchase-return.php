@@ -78,24 +78,7 @@
 				  <label for="supplier_id" class="col-sm-2 control-label"><?= $this->lang->line('supplier_name'); ?></label>
 
                   <div class="col-sm-3">
-				  <select class="form-control select2 " id="supplier_id" name="supplier_id"  style="width: 100%;" onkeyup="shift_cursor(event,'category_name')">
-				  <option value="">-All-</option>
-					  <?php
-						$q1=$this->db->query("select * from db_suppliers where status=1");
-						if($q1->num_rows()>0)
-             {
-                 foreach($q1->result() as $res1)
-							 {
-								 echo "<option value='".$res1->id."'>".$res1->supplier_name."</option>";
-							 }
-						 }
-						 else
-						 {
-								?>
-								<option value="">No Records Found</option>
-								<?php
-						 }
-						?>
+				  <select class="form-control select2 " id="supplier_id" name="supplier_id"  style="width: 100%;">
                   </select>
 					<span id="supplier_id_msg" style="display:none" class="text-danger"></span>
                   </div>
@@ -188,6 +171,14 @@
 <?php include"comman/code_js_export.php"; ?>
 
 <script src="<?php echo $theme_link; ?>js/report-purchase-report.js"></script>
+<script src="<?php echo $theme_link; ?>js/ajaxselect/supplier_select_ajax.js"></script>  
+      <script type="text/javascript">
+         //supplier Selection Box Search
+         function getsupplierSelectionId() {
+           return '#supplier_id';
+         }
+         //supplier Selection Box Search - END
+      </script>
 
 <!-- Make sidebar menu hughlighter/selector -->
 <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");</script>

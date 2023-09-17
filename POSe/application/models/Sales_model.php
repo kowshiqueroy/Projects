@@ -38,6 +38,11 @@ class Sales_model extends CI_Model {
 	     $sales_to_date = $this->input->post('sales_to_date');
 	     $sales_to_date = system_fromatted_date($sales_to_date);
 	     $users = $this->input->post('user_created_by');
+
+	     if(!permissions('view_all_users_sales_invoices')){
+	      	$this->db->where("upper(a.created_by)",strtoupper($this->session->userdata('inv_username')));
+	      }
+	      
 	     if($users && !empty($users)){
 	     	$this->db->where("upper(a.created_by)",strtoupper($users));
 	     }
@@ -199,10 +204,23 @@ class Sales_model extends CI_Model {
 					
 			$q1 = $this->db->where('id',$sales_id)->update('db_sales', $sales_entry);
 
+			$q6 = $this->db->select("item_id")->from("db_salesitems")->where("sales_id in ($sales_id)")->get();
+
 			$q11=$this->db->query("delete from db_salesitems where sales_id='$sales_id'");
 			if(!$q11){
 				return "failed";
 			}
+
+			if($q6->num_rows()>0){
+				$this->load->model('pos_model');				
+				foreach ($q6->result() as $res6) {
+					$q6=$this->pos_model->update_items_quantity($res6->item_id);
+					if(!$q6){
+						return "failed";
+					}
+				}
+			}
+
 		}
 		//end
 
@@ -227,7 +245,13 @@ class Sales_model extends CI_Model {
 				$discount_amt	    =$this->xss_html_filter(trim($_REQUEST['td_data_'.$i.'_8']));//Amount
 				$purchase_price	    =$this->xss_html_filter(trim($_REQUEST['pur_price_'.$i]));
 				
-				
+				$item_details = get_item_details($item_id);
+				$current_stock_of_item = $item_details->stock;
+				if($current_stock_of_item<$sales_qty){
+					return $item_details->item_name." has only ".$current_stock_of_item." in Stock!!";exit;
+				}
+
+
 				$discount_amt_per_unit = $discount_amt/$sales_qty;
 				if($tax_type=='Exclusive'){
 					$single_unit_total_cost = $price_per_unit + ($unit_tax * $price_per_unit / 100);
@@ -579,7 +603,7 @@ class Sales_model extends CI_Model {
 		$info['item_discount'] = 0;
 		$info['item_discount_type'] = $q1->row()->discount_type;
 		$info['item_discount_input'] = $q1->row()->discount;
-		$info['purchase_price'] = $q1->row()->purchase_price;
+		$info['purchase_price'] = $q1->row()->price;
 
 		$info['item_tax_amt'] = ($q1->row()->tax_type=='Inclusive') ? calculate_inclusive($q1->row()->sales_price,$q3->tax) :calculate_exclusive($q1->row()->sales_price,$q3->tax);
 

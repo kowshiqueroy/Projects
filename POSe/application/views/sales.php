@@ -40,6 +40,7 @@ padding-right: 2px;
       $sales_date=show_date(date("d-m-Y"));
       $discount_input = $this->db->select("sales_discount")->get('db_sitesettings')->row()->sales_discount;
       $discount_input = ($discount_input==0) ? '' : $discount_input;
+      $save_operation = true;
     }
     else{
       $q2 = $this->db->query("select * from db_sales where id=$sales_id");
@@ -55,6 +56,7 @@ padding-right: 2px;
       $sales_note=$q2->row()->sales_note;
 
       $items_count = $this->db->query("select count(*) as items_count from db_salesitems where sales_id=$sales_id")->row()->items_count;
+      $save_operation = false;
     }
     
     ?>
@@ -107,26 +109,6 @@ padding-right: 2px;
                                  <div class="col-sm-3">
                                     <div class="input-group">
                                        <select class="form-control select2" id="customer_id" name="customer_id"  style="width: 100%;" onkeyup="shift_cursor(event,'mobile')">
-                                          <?php
-                                             
-                                             $query1="select * from db_customers where status=1";
-                                             $q1=$this->db->query($query1);
-                                             if($q1->num_rows($q1)>0)
-                                                { 
-                                                 // echo "<option value=''>-Select-</option>";
-                                                  foreach($q1->result() as $res1)
-                                                {
-                                                  $selected=($customer_id==$res1->id) ? 'selected' : '';
-                                                  echo "<option $selected  value='".$res1->id."'>".$res1->customer_name ."</option>";
-                                                }
-                                              }
-                                              else
-                                              {
-                                                 ?>
-                                          <option value="">No Records Found</option>
-                                          <?php
-                                             }
-                                             ?>
                                        </select>
                                        <span class="input-group-addon pointer" data-toggle="modal" data-target="#customer-modal" title="New Customer?"><i class="fa fa-user-plus text-primary fa-lg"></i></span>
                                     </div>
@@ -568,8 +550,31 @@ padding-right: 2px;
 <!-- ./wrapper -->
 
       <script src="<?php echo $theme_link; ?>js/sales.js"></script>  
+      <script src="<?php echo $theme_link; ?>js/ajaxselect/customer_select_ajax.js"></script>  
       <script>
-        
+         
+         //Customer Selection Box Search
+         function getCustomerSelectionId() {
+           return '#customer_id';
+         }
+
+         $(document).ready(function () {
+
+            var customer_id = "<?= (!empty($customer_id)) ? $customer_id : '';  ?>";
+
+            autoLoadFirstCustomer(customer_id);
+
+         });
+         //Customer Selection Box Search - END
+
+         function save_operation() {
+            <?php if($save_operation){ ?>
+               return true;
+            <?php }else{ ?>
+               return false;
+            <?php } ?>
+         }
+
          //Initialize Select2 Elements
              $(".select2").select2();
          //Date picker
@@ -741,6 +746,9 @@ padding-right: 2px;
          
              $("#round_off_amt").html(parseFloat(subtotal_diff).toFixed(2)); 
              $("#total_amt").html(parseFloat(subtotal_round).toFixed(2)); 
+             if(save_operation()){
+               $("#amount").val(parseFloat(subtotal_round).toFixed(2));
+             }
              $("#hidden_total_amt").val(parseFloat(subtotal_round).toFixed(2)); 
            }
            else{
@@ -754,6 +762,7 @@ padding-right: 2px;
              $("#hidden_discount_to_all_amt").html('0.00'); 
              $("#subtotal_amt").html('0.00'); 
              $("#other_charges_amt").html('0.00');  
+             $("#amount").val('0.00');  
            }
            
           // adjust_payments();

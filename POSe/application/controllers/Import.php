@@ -345,7 +345,7 @@ class Import extends MY_Controller {
                           continue;
                         }
                         
-                        $importdata = $this->xss_html_filter($importdata);
+                        //$importdata = $this->xss_html_filter($importdata);
                         $item_name = $importdata[0];
                         //Validate This items already exist or not
                         /*$item_count=$this->db->query("select count(*) as item_count from db_items where upper(item_name)=upper('$item_name')")->row()->item_count;
@@ -359,8 +359,8 @@ class Import extends MY_Controller {
                         $category_name =$importdata[1];
                         $unit_name =$importdata[4];
                         $brand_name =$importdata[6];
-                        $tax_name =$importdata[10];
-                        $tax_per =$importdata[11];
+                        $tax_name =$importdata[9];
+                        $tax_per =$importdata[10];
                         $category_id=(!empty($category_name)) ? $this->get_category_id($category_name) : null;
                         $unit_id=(!empty($unit_name)) ? $this->get_unit_id($unit_name) : null;
                         $brand_id=(!empty($brand_name)) ? $this->get_brand_id($brand_name) : null;
@@ -378,13 +378,18 @@ class Import extends MY_Controller {
                         $item_code=$item_init.str_pad($maxid, 4, '0', STR_PAD_LEFT);
                         //end
 
-                        $purchase_price = !empty(trim($importdata[9]))?trim($importdata[9]):0;
-                        if($importdata[12]=='Exclusive'){
+                        $purchase_price = !empty(trim($importdata[8]))?trim($importdata[8]):0;
+                        if($importdata[11]=='Exclusive'){
                             $purchase_price += ($purchase_price*$tax_per)/100;
                         }
 
-                        $final_price = (strtoupper(trim($importdata[12]))==strtoupper('Inclusive')) ? 0 : calculate_exclusive(trim($importdata[13]),$tax_per);
-                        $final_price +=trim($importdata[13]);
+                        $final_price = (strtoupper(trim($importdata[11]))==strtoupper('Inclusive')) ? 0 : calculate_exclusive(trim($importdata[12]),$tax_per);
+                        $final_price +=trim($importdata[12]);
+
+                        $sales_price = !empty($importdata[12])?$importdata[12]:0;
+                        $price = !empty($importdata[8])?$importdata[8]:0;
+                        $profit_margin = ($sales_price-$price);
+                        $profit_margin = ($price>0) ? ($profit_margin/$price)*100 : $profit_margin;
 
                         $row = array(
                             'item_code'         =>  $item_code, 
@@ -395,17 +400,18 @@ class Import extends MY_Controller {
                             'unit_id'           =>  $unit_id,//4
                             'alert_qty'         =>  !empty($importdata[5])?$importdata[5]:'',
                             'brand_id'          =>  $brand_id,//6
-                            'lot_number'        =>  !empty($importdata[7])?$importdata[7]:'',
-                            'expire_date'       =>  !empty($importdata[8])? date("Y-m-d",strtotime($importdata[8])):null,
-                            'price'             =>  !empty($importdata[9])?$importdata[9]:0,//Actual Price
+                            //'lot_number'        =>  !empty($importdata[7])?$importdata[7]:'',
+                            'expire_date'       =>  !empty($importdata[7])? date("Y-m-d",strtotime($importdata[7])):null,
+                            'price'             =>  $price,
                             'tax_id'            =>  $tax_id,//10 //ok
                             'purchase_price'    =>  $purchase_price,//Calculate autocalculate
-                            'tax_type'          =>  !empty($importdata[12])?$importdata[12]:'Exclusive',//ok
-                            'sales_price'       =>  !empty($importdata[13])?$importdata[13]:0,//ok
-                            'stock'             =>  !empty($importdata[14])?$importdata[14]:0,//ok
-                            'custom_barcode'    =>  !empty($importdata[15])?$importdata[15]:0,//ok
-                            'discount_type'    =>  !empty($importdata[16])?$importdata[16]:0,//ok
-                            'discount'    =>  !empty($importdata[17])?$importdata[17]:0,//ok
+                            'tax_type'          =>  !empty($importdata[11])?$importdata[11]:'Exclusive',//ok
+                            'sales_price'       =>  $sales_price,//ok
+                            'profit_margin'       =>  $profit_margin,//ok
+                            'stock'             =>  !empty($importdata[13])?$importdata[13]:0,//ok
+                            'custom_barcode'    =>  !empty($importdata[14])?$importdata[14]:0,//ok
+                            'discount_type'    =>  !empty($importdata[15])?$importdata[15]:0,//ok
+                            'discount'    =>  !empty($importdata[16])?$importdata[16]:0,//ok
                             'final_price'       =>  $final_price,//ok
 
                             /*System Info*/
@@ -427,11 +433,11 @@ class Import extends MY_Controller {
                           $flag=false;   
                         }
                         $item_id = $this->db->insert_id();
-                        if(!empty($importdata[14]) && $importdata[14]>0){
+                        if(!empty($importdata[13]) && $importdata[13]>0){
                             $info = array(
                                         'entry_date'            => $CUR_DATE, 
                                         'item_id'               => $item_id,
-                                        'qty'                   => $importdata[14],
+                                        'qty'                   => $importdata[13],
                                         'status'                => 1,
                                     );
 

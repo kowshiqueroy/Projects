@@ -7,7 +7,7 @@ class Items_model extends CI_Model {
 	var $table = 'db_items as a';
 	var $column_order = array( 'a.id','a.item_image','a.item_code','a.item_name','b.category_name','c.unit_name','a.stock','a.alert_qty','a.purchase_price','a.final_price','d.tax_name','d.tax','a.status','e.brand_name','a.tax_type','a.hsn','a.sku'); //set column field database for datatable orderable
 	var $column_search = array( 'a.id','a.item_image','a.item_code','a.item_name','b.category_name','c.unit_name','a.stock','a.alert_qty','a.purchase_price','a.final_price','d.tax_name','d.tax','a.status','e.brand_name','a.custom_barcode','a.tax_type','a.hsn','a.sku'); //set column field database for datatable searchable 
-	var $order = array('a.item_name' => 'asc'); // default order 
+	var $order = array('a.id' => 'desc'); // default order 
 
 	public function __construct()
 	{
@@ -153,16 +153,16 @@ class Items_model extends CI_Model {
 			return "Sorry! This Items Name already Exist.";
 		}*/
 		
-		$qs5="select item_init from db_company";
+		/*$qs5="select item_init from db_company";
 		$q5=$this->db->query($qs5);
-		$item_init=$q5->row()->item_init;
+		$item_init=$q5->row()->item_init;*/
 
 		//Create items unique Number
-		$this->db->query("ALTER TABLE db_items AUTO_INCREMENT = 1");
+		/*$this->db->query("ALTER TABLE db_items AUTO_INCREMENT = 1");
 		$qs4="select coalesce(max(id),0)+1 as maxid from db_items";
 		$q1=$this->db->query($qs4);
 		$maxid=$q1->row()->maxid;
-		$item_code=$item_init.str_pad($maxid, 4, '0', STR_PAD_LEFT);
+		$item_code=$item_init.str_pad($maxid, 4, '0', STR_PAD_LEFT);*/
 		//end
 
 		$new_opening_stock = (empty($new_opening_stock)) ? 0 :$new_opening_stock;
@@ -315,6 +315,7 @@ class Items_model extends CI_Model {
 			if(empty($discount)){ $discount=0; }
 			$query1="update db_items set 
 						item_name='$item_name',
+						item_code='$item_code',
 						description='$description',
 						brand_id='$brand_id',
 						category_id='$category_id',
@@ -485,7 +486,7 @@ class Items_model extends CI_Model {
 
 							for($j=1;$j<=$item_count;$j++){
 							?>
-							<div style="height:1in !important; line-height: 1in; width:2.5in !important; display: inline-block; <?=$page_break;?>  " class="label_border text-center">
+							<div style="height:1in !important; line-height: 1in; width:2.5in !important; display: inline-block; text-align: center; <?=$page_break;?>  " class="label_border">
 							<div style="display:inline-block;vertical-align:middle;line-height:16px !important;">
 								<b style="display: block !important" class="text-uppercase"><?=$company_name;?></b>
 									<span style="display: block !important">
@@ -493,7 +494,7 @@ class Items_model extends CI_Model {
 									</span>
 								<b>Price:</b>
 								<span><?= $CI->currency($item_price);?></span>
-								<img class="center-block" style="max-height: 0.35in !important; width: 100%; opacity: 1.0" src="<?php echo base_url();?>barcode/<?php echo $item_code;?>">
+								<img class="center-block" style="max-height: 0.35in !important; width: 100%; opacity: 1.0" src="<?php echo base_url();?>barcode/<?php echo $item_code."/".rand();?>">
 
 							</div>
 							</div>
@@ -588,6 +589,54 @@ class Items_model extends CI_Model {
 		$this->session->set_flashdata('success', 'Success!! Item Opening Stock Entry Deleted!');
 		$this->db->trans_commit();
 		return "success";
+	}
+
+
+	public function getItemsArray($id=''){
+
+		$q = '';
+		
+		$this->db->select("id, item_name, item_code")->from('db_items');
+
+		if(isset($_REQUEST['category_id']) && !empty($_REQUEST['category_id'])){
+			$this->db->where("category_id",$_REQUEST['category_id']);
+		}
+		if(isset($_REQUEST['item_type']) && !empty($_REQUEST['item_type'])){
+			$service_bit = ($_REQUEST['item_type'] == 'Services') ? 1 : 0;
+			$this->db->where("service_bit",$service_bit);
+		}
+
+		if(!empty($id)){
+
+			$this->db->where("id",$id);
+			
+		}else{
+
+			$q = (isset($_POST['searchTerm'])) ? strtoupper($_POST['searchTerm']) : '';
+
+			$this->db->where("(upper(item_name) like '%$q%' or upper(item_code) like '%$q%' or upper(custom_barcode) like '%$q%')");
+		}
+		$this->db->limit(10);
+		//echo $this->db->get_compiled_select();exit;
+		$query = $this->db->get();
+
+		$display_json = array();
+
+		if($query->num_rows()>0){
+			foreach($query->result() as $res){
+
+
+				$json_arr["id"] 					 = $res->id;
+			  	$json_arr["text"] 					 = $res->item_name;
+			  	$json_arr["item_code"] 					 = $res->item_code;
+			  	
+			  	array_push($display_json, $json_arr);
+			}
+		}
+		return $display_json;
+	}
+	public function getItemsJson($id){
+		return json_encode($this->getItemsArray($id));
 	}
 
 }

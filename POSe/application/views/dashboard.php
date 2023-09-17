@@ -325,7 +325,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">
-              <table id="example3" class=" datatable table table-bordered table-hover">
+              <table id="" class=" datatable table table-bordered table-hover">
                 <thead>
                 <tr class='bg-blue'>
                   <th>#</th>
@@ -337,7 +337,7 @@
                 </thead>
                 <tbody>
         <?php
-        $qs6="SELECT a.item_name,a.item_code,b.category_name,a.expire_date from db_items as a,db_category as b where b.id=a.category_id and a.expire_date<='".date("Y-m-d")."' and a.status=1";
+        $qs6="SELECT a.item_name,a.item_code,b.category_name,a.expire_date from db_items as a,db_category as b where b.id=a.category_id and a.expire_date<='".date("Y-m-d")."' and a.status=1 limit 10";
         $q6=$this->db->query($qs6);
        
         if($q6->num_rows()>0){
@@ -355,7 +355,11 @@
         ?>
         
                 </tbody>
-                
+                 <tfoot>
+                      <tr>
+                        <td colspan="5" class="text-center"><a href="<?=base_url('reports/expired_items'); ?>" class="uppercase"><?= $this->lang->line('view_all'); ?></a></td>
+                      </tr>
+                    </tfoot>
               </table>
             </div>
             <!-- /.box-body -->
@@ -371,12 +375,12 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">
-              <table id="example2" class="table table-bordered table-hover">
+              <table id="" class="table table-bordered table-hover">
                 <thead>
                 <tr class='bg-blue'>
                   <th>#</th>
-                  <th><?= $this->lang->line('category_name'); ?></th>
                   <th><?= $this->lang->line('item_name'); ?></th>
+                  <th><?= $this->lang->line('category_name'); ?></th>
                   <th><?= $this->lang->line('stock'); ?></th>
                 </tr>
                 </thead>
@@ -386,7 +390,8 @@
         $this->db->from('db_items a');
         $this->db->where('a.stock<=a.alert_qty and a.status=1');
         $this->db->join('db_category b','b.id=a.category_id','left');
-
+        $this->db->order_by("a.id","desc");
+        $this->db->limit("10");
         $q4=$this->db->get();
        
         if($q4->num_rows()>0){
@@ -394,8 +399,8 @@
           foreach ($q4->result() as $row){
             echo "<tr>";
             echo "<td>".$i++."</td>";
-            echo "<td>".$row->category_name."</td>";
             echo "<td>".$row->item_name."</td>";
+            echo "<td>".$row->category_name."</td>";
             echo "<td>".$row->stock."</td>";
             echo "</tr>";
           }
@@ -403,6 +408,11 @@
         ?>
         
                 </tbody>
+                <tfoot>
+                      <tr>
+                        <td colspan="4" class="text-center"><a href="<?=base_url('reports/stock'); ?>" class="uppercase"><?= $this->lang->line('view_all'); ?></a></td>
+                      </tr>
+                    </tfoot>
                 
               </table>
             </div>
@@ -433,7 +443,7 @@
         $jan_pur=$feb_pur=$mar_pur=$apr_pur=$may_pur=$jun_pur=$jul_pur=$aug_pur=$sep_pur=$oct_pur=$nov_pur=$dec_pur=0;
         $jan_sal=$feb_sal=$mar_sal=$apr_sal=$may_sal=$jun_sal=$jul_sal=$aug_sal=$sep_sal=$oct_sal=$nov_sal=$dec_sal=0;
 
-        $q1=$this->db->query("SELECT COALESCE(SUM(grand_total),0) AS pur_total,MONTH(purchase_date) AS purchase_date FROM db_purchase where purchase_status='Received'  GROUP BY MONTH(purchase_date) ");
+        $q1=$this->db->query("SELECT COALESCE(SUM(grand_total),0) AS pur_total,MONTH(purchase_date) AS purchase_date FROM db_purchase where purchase_status='Received' AND YEAR(purchase_date) = ".date('Y')."  GROUP BY MONTH(purchase_date) ");
 
 
         if($q1->num_rows() >0){
@@ -454,7 +464,8 @@
         }
 
         //DONUS CHART
-        $q2=$this->db->query("SELECT COALESCE(SUM(grand_total),0) AS sal_total,MONTH(sales_date) AS sales_date FROM db_sales where sales_status='Final' GROUP BY MONTH(sales_date)");
+
+        $q2=$this->db->query("SELECT COALESCE(SUM(grand_total),0) AS sal_total,MONTH(sales_date) AS sales_date FROM db_sales where sales_status='Final' AND YEAR(sales_date) = ".date('Y')." GROUP BY MONTH(sales_date)");
         if($q2->num_rows() >0){
           foreach($q2->result() as $res2){
             if($res2->sales_date == '1'){ $jan_sal = $res2->sal_total; }

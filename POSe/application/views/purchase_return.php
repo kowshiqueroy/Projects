@@ -151,27 +151,7 @@
                                  <label for="supplier_id" class="col-sm-2 control-label"><?= $this->lang->line('supplier_name'); ?><label class="text-danger">*</label></label>
                                  <div class="col-sm-3">
                                     <div class="input-group">
-                                       <select class="form-control select2" id="supplier_id" name="supplier_id"  style="width: 100%;" onkeyup="shift_cursor(event,'mobile')">
-                                          <?php
-                                             
-                                             $query1="select * from db_suppliers where status=1";
-                                             $q1=$this->db->query($query1);
-                                             if($q1->num_rows($q1)>0)
-                                                { 
-                                                  echo "<option value=''>-Select-</option>";
-                                                  foreach($q1->result() as $res1)
-                                                {
-                                                  $selected=($supplier_id==$res1->id) ? 'selected' : '';
-                                                  echo "<option $selected  value='".$res1->id."'>".$res1->supplier_name ."</option>";
-                                                }
-                                              }
-                                              else
-                                              {
-                                                 ?>
-                                          <option value="">No Records Found</option>
-                                          <?php
-                                             }
-                                             ?>
+                                       <select class="form-control select2" id="supplier_id" name="supplier_id"  style="width: 100%;">
                                        </select>
                                       <span class="input-group-addon pointer" data-toggle="modal" data-target="#supplier-modal" title="New Supplier?"><i class="fa fa-user-plus text-primary fa-lg"></i></span>
                                     </div>
@@ -606,7 +586,36 @@
 <!-- ./wrapper -->
 
       <script src="<?php echo $theme_link; ?>js/purchase_return.js"></script>  
+      <script src="<?php echo $theme_link; ?>js/ajaxselect/supplier_select_ajax.js"></script>  
+
       <script>
+
+         //supplier Selection Box Search
+         function load_supplier_select2(){
+            var supplier_id = "<?= (!empty($supplier_id)) ? $supplier_id : '';  ?>";
+            
+            if(supplier_id != ""){
+               //If has supplier id in supplier_id variable
+               //Then don't load the supplier select2
+               return false;
+            }
+            //Load supplier select2
+            return true;
+         }
+         function getsupplierSelectionId() {
+           return '#supplier_id';
+         }
+
+         $(document).ready(function () {
+
+            var supplier_id = "<?= (!empty($supplier_id)) ? $supplier_id : '';  ?>";
+            if(supplier_id!=''){
+               autoLoadFirstsupplier(supplier_id);
+            }
+         });
+         //supplier Selection Box Search - END
+
+         
          $(".close_btn").on("click",function(){
            if(confirm('Are you sure you want to navigate away from this page?')){
                window.location='<?php echo $base_url; ?>dashboard';

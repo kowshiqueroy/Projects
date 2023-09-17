@@ -34,7 +34,7 @@
  <?php
     $sales_code=$customer_name='';
     if($oper=='return_against_sales'){
-
+         //NEW
           $return_id='';
           $q2 = $this->db->query("select * from db_sales where id=$sales_id");
           $customer_id=$q2->row()->customer_id;
@@ -50,8 +50,10 @@
           $return_note='';
 
           $items_count = $this->db->query("select count(*) as items_count from db_salesitems where sales_id=$sales_id")->row()->items_count;
+          $save_operation = true;
     }
     if($oper=='edit_existing_return'){
+      //EDIT
           $q2 = $this->db->query("select * from db_salesreturn where id=$return_id");
           $sales_id=$q2->row()->sales_id;
           $customer_id=$q2->row()->customer_id;
@@ -68,13 +70,16 @@
 
           $items_count = $this->db->query("select count(*) as items_count from db_salesitemsreturn where return_id=$return_id")->row()->items_count;
           $sales_code = (!empty($sales_id)) ? $this->db->query("select * from db_sales where id=$sales_id")->row()->sales_code : '';
+          $save_operation = false;
     }
     if($oper=='create_new_return'){
+      //NEW
           $customer_id  = $return_date = $return_status = $warehouse_id =
           $reference_no  =
           $other_charges_input          = $other_charges_tax_id =
           $discount_input = $discount_type  = $return_note='';
           $return_date=show_date(date("d-m-Y"));
+          $save_operation = true;
     }
 
     if(!empty($customer_id)){
@@ -150,27 +155,8 @@
                                  <label for="customer_id" class="col-sm-2 control-label"><?= $this->lang->line('customer_name'); ?><label class="text-danger">*</label></label>
                                  <div class="col-sm-3">
                                     <div class="input-group">
-                                       <select class="form-control select2" id="customer_id" name="customer_id"  style="width: 100%;" onkeyup="shift_cursor(event,'mobile')">
-                                          <?php
-                                             
-                                             $query1="select * from db_customers where status=1";
-                                             $q1=$this->db->query($query1);
-                                             if($q1->num_rows($q1)>0)
-                                                { 
-                                                  //echo "<option value=''>-Select-</option>";
-                                                  foreach($q1->result() as $res1)
-                                                {
-                                                  $selected=($customer_id==$res1->id) ? 'selected' : '';
-                                                  echo "<option $selected  value='".$res1->id."'>".$res1->customer_name ."</option>";
-                                                }
-                                              }
-                                              else
-                                              {
-                                                 ?>
-                                          <option value="">No Records Found</option>
-                                          <?php
-                                             }
-                                             ?>
+                                       <select class="form-control select2" id="customer_id" name="customer_id"  style="width: 100%;">
+                                          
                                        </select>
                                       <span class="input-group-addon pointer" data-toggle="modal" data-target="#customer-modal" title="New customer?"><i class="fa fa-user-plus text-primary fa-lg"></i></span>
                                     </div>
@@ -606,7 +592,40 @@
 <!-- ./wrapper -->
 
       <script src="<?php echo $theme_link; ?>js/sales-return.js"></script>  
+      <script src="<?php echo $theme_link; ?>js/ajaxselect/customer_select_ajax.js"></script>  
       <script>
+         //Customer Selection Box Search
+         function load_customer_select2(){
+            var customer_id = "<?= (!empty($customer_id)) ? $customer_id : '';  ?>";
+            
+            if(customer_id != ""){
+               //If has customer id in customer_id variable
+               //Then don't load the customer select2
+               return false;
+            }
+            //Load customer select2
+            return true;
+         }
+         function getCustomerSelectionId() {
+           return '#customer_id';
+         }
+
+         $(document).ready(function () {
+
+            var customer_id = "<?= (!empty($customer_id)) ? $customer_id : '';  ?>";
+            
+            autoLoadFirstCustomer(customer_id);
+
+         });
+         //Customer Selection Box Search - END
+
+         function save_operation() {
+            <?php if($save_operation){ ?>
+               return true;
+            <?php }else{ ?>
+               return false;
+            <?php } ?>
+         }
          $(".close_btn").on("click",function(){
            if(confirm('Are you sure you want to navigate away from this page?')){
                window.location='<?php echo $base_url; ?>dashboard';
@@ -757,12 +776,16 @@
          
              $("#round_off_amt").html(parseFloat(subtotal_diff).toFixed(2)); 
              $("#total_amt").html(parseFloat(subtotal_round).toFixed(2)); 
+             if(save_operation()){
+               $("#amount").val(parseFloat(subtotal_round).toFixed(2));
+             }
              $("#hidden_total_amt").val(parseFloat(subtotal_round).toFixed(2)); 
            }
            else{
              $("#subtotal_amt").html('0.00'); 
              
              $("#tax_amt").html('0.00'); 
+             $("#amount").val('0.00');  
            }
            
           // adjust_payments();

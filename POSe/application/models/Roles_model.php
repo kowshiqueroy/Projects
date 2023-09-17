@@ -278,6 +278,12 @@ class Roles_model extends CI_Model {
 							                            'import_customers',
 							                            'import_suppliers',
 							                            'item_purchase_report',
+							                            'pos',
+							                            'help',
+							                            'view_all_users_sales_invoices',
+							                            'view_all_users_sales_return_invoices',
+							                            'view_all_users_purchase_invoices',
+							                            'view_all_users_purchase_return_invoices',
 													)));
 
 

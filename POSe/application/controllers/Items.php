@@ -226,4 +226,7 @@ class Items extends MY_Controller {
 		$entry_id = $this->input->post('entry_id');
 		echo $this->items->delete_stock_entry($entry_id);
 	}
+	public function getItems($id=''){
+		echo $this->items->getItemsJson($id);
+	}
 }

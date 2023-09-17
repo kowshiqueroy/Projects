@@ -62,6 +62,9 @@ class Pos_model extends CI_Model {
 		  if(isset($last_id) && !empty($last_id)){
 		  	$this->db->where("a.id>".$last_id);
 		  }
+		  if(!empty($item_name)){
+		  	$this->db->where("upper(a.item_name) like upper('%".$item_name."%')");
+		  }
 		  $this->db->limit(30);
 		  //echo $this->db->get_compiled_select();exit();
 		  $q2=$this->db->get();
@@ -199,10 +202,23 @@ class Pos_model extends CI_Model {
 					
 				$q3 = $this->db->where('id',$sales_id)->update('db_sales', $sales_entry);
 
+				$q6 = $this->db->select("item_id")->from("db_salesitems")->where("sales_id in ($sales_id)")->get();
+
 				$q11=$this->db->query("delete from db_salesitems where sales_id='$sales_id'");
 				$q12=$this->db->query("delete from db_salespayments where sales_id='$sales_id'");
 				if(!$q11 || !$q12){
 					return "failed";
+				}
+
+
+				if($q6->num_rows()>0){
+					$this->load->model('pos_model');				
+					foreach ($q6->result() as $res6) {
+						$q6=$this->pos_model->update_items_quantity($res6->item_id);
+						if(!$q6){
+							return "failed";
+						}
+					}
 				}
 		}
 		else{
@@ -290,6 +306,12 @@ class Pos_model extends CI_Model {
 					$discount_amt =null;
 				}*/
 				/* ******************************** */
+
+				/*$item_details = get_item_details($item_id);
+				$current_stock_of_item = $item_details->stock;
+				if($current_stock_of_item<$sales_qty){
+					return $item_details->item_name." has only ".$current_stock_of_item." in Stock!!";exit;
+				}*/
 				
 				$salesitems_entry = array(
 		    				'sales_id' 			=> $sales_id, 
@@ -373,7 +395,7 @@ class Pos_model extends CI_Model {
 
 			    if(!$q7)
 				{
-					echo "q7\n";	
+					//echo "q7\n";	
 					return "failed";
 				}
 				

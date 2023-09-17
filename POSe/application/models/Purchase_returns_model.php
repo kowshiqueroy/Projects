@@ -21,6 +21,10 @@ class Purchase_returns_model extends CI_Model {
 		//$this->db->select("CASE WHEN c.purchase_code IS NULL THEN '' ELSE c.purchase_code END AS purchase_code");
 		$this->db->join('db_purchase as c','c.id=a.purchase_id','left');
 		$this->db->where('b.id=a.supplier_id');
+
+		if(!permissions('view_all_users_purchase_return_invoices')){
+	      	$this->db->where("upper(a.created_by)",strtoupper($this->session->userdata('inv_username')));
+	      }
 		
 		$i = 0;
 	

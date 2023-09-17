@@ -178,7 +178,7 @@
                     <td><?=$i++;?></td>
                     <td><?= $this->lang->line('tax_type'); ?></td>
                     <td style="color:green;"><span class="label label-success"><?= $this->lang->line('required'); ?></td>
-                    <td></td>
+                    <td>"Inclusive" or "Exclusive"</td>
                   </tr>
                   <tr>
                     <td><?=$i++;?></td>

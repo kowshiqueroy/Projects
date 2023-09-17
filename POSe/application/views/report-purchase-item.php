@@ -72,24 +72,7 @@
           <label for="item_id" class="col-sm-2 control-label"><?= $this->lang->line('item_name'); ?></label>
 
                   <div class="col-sm-3">
-          <select class="form-control select2 " id="item_id" name="item_id" ">
-          <option value="">-All-</option>
-            <?php
-            $q1=$this->db->query("select * from db_items where status=1");
-             if($q1->num_rows()>0)
-             {
-                 foreach($q1->result() as $res1)
-               {
-                 echo "<option value='".$res1->id."'>".$res1->item_name."</option>";
-               }
-             }
-             else
-             {
-                ?>
-                <option value="">No Records Found</option>
-                <?php
-             }
-            ?>
+          <select class="form-control select2 " id="item_id" name="item_id">
                   </select>
           <span id="item_id_msg" style="display:none" class="text-danger"></span>
                   </div>
@@ -142,7 +125,7 @@
                   <th style="">#</th>
                   <th style=""><?= $this->lang->line('invoice_no'); ?></th>
                   <th style=""><?= $this->lang->line('purchase_date'); ?></th>
-                  <th style=""><?= $this->lang->line('customer_name'); ?></th>
+                  <th style=""><?= $this->lang->line('supplier_name'); ?></th>
                   <th style=""><?= $this->lang->line('item_name'); ?></th>
                   <th style=""><?= $this->lang->line('quantity'); ?></th>
                   <th style=""><?= $this->lang->line('amount'); ?>(<?= $CI->currency(); ?>)</th>
@@ -180,6 +163,15 @@
 <!-- TABLE EXPORT CODE -->
 <?php include"comman/code_js_export.php"; ?>
 
+
+<script src="<?php echo $theme_link; ?>js/ajaxselect/item_select_ajax.js"></script>  
+<script>
+   //Item Selection Box Search
+   function getItemSelectionId() {
+     return '#item_id';
+   }
+   //Item Selection Box Search - END
+</script>
 
 <script>
   $("#view,#view_all").on("click",function(){

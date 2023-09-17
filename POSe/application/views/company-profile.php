@@ -114,10 +114,55 @@
           <span id="website_msg" style="display:none" class="text-danger"></span>
                   </div>
                   </div>
+
+
+                  <?php
+                  //Signature Checkbox
+
+                     $show_signature_checkbox ='';
+                     if($show_signature==1){
+                      $show_signature_checkbox='checked';
+                     }
+                  ?>
+                  <div class="form-group">
+                     <label for="show_signature" class="col-sm-4 control-label"><?= $this->lang->line('show_signature'); ?></label>
+                     <div class="col-sm-8">
+                        <input type="checkbox" <?=$show_signature_checkbox;?> class="form-control" id="show_signature" name="show_signature" >
+                        <br>
+                        <span id="" style="" class="label label-success">Only available in Sales Invoice Format 3</span>
+                        <span id="show_signature_msg" style="display:none" class="text-danger"></span>
+                     </div>
+                  </div>
+                  <div class="form-group">
+
+                     <label for="signature" class="col-sm-4 control-label"><?= $this->lang->line('signature'); ?></label>
+                     <div class="col-sm-8">
+                        <input type="file" id="signature" name="signature">
+                        <span id="signature_msg" style="display:block;" class="text-danger">Max Width/Height: 1000px * 1000px & Size: 1024kb </span>
+                     </div>
+
+                  </div>
+                  <?php 
+                  
+                  /*if(empty($signature)){
+                    $signature = base_url('uploads/no_logo/noimage.png');
+                  }
+                  else{
+                    $signature = base_url($signature);
+                  }*/
+                  ?>
+                  <div class="form-group">
+                     <div class="col-sm-8 col-sm-offset-4">
+                        <img class='img-responsive' style='border:3px solid #d2d6de;' src="<?=$signature;?>">
+                     </div>
+                  </div>
+
+
                   <div class="form-group">
                   <label for="upi_id" class="col-sm-4 control-label"><?= $this->lang->line('upi_id'); ?></label>
                   <div class="col-sm-8">
                     <input type="text" class="form-control" id="upi_id" name="upi_id" placeholder="" value="<?php print $upi_id; ?>" >
+                        <span id="" style="" class="label label-success">Only available in Sales Invoice Format 3</span>
           <span id="upi_id_msg" style="display:none" class="text-danger"></span>
                   </div>
                   </div>

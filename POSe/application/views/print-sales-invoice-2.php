@@ -7,7 +7,7 @@
 
 <style>
 table, th, td {
-    /*border: 1px solid black;*/
+    /*border: 0.5px solid black;*/
     border-collapse: collapse;
     font-family: 'Open Sans', 'Martel Sans', sans-serif;
 }
@@ -53,6 +53,7 @@ body{
     $company_gst_no=$res1->gst_no;
     $company_vat_no=$res1->vat_no;
     $company_logo=$res1->company_logo;
+    $terms_and_conditions=$res1->sales_terms_and_conditions;
 
     $q4=$this->db->query("select sales_invoice_footer_text from db_sitesettings where id=1");
     $res4=$q4->row();
@@ -60,7 +61,7 @@ body{
     
 
     $q3=$this->db->query("SELECT a.customer_name,a.mobile,a.phone,a.gstin,a.tax_number,a.email,
-                           a.opening_balance,a.country_id,a.state_id,a.created_by,
+                           a.opening_balance,a.country_id,a.state_id,b.created_by,
                            a.postcode,a.address,b.sales_date,b.created_time,b.reference_no,
                            b.sales_code,b.sales_note,b.sales_status,
                            coalesce(b.grand_total,0) as grand_total,
@@ -102,7 +103,6 @@ body{
     $sales_note=$res3->sales_note;
     $sales_status=$res3->sales_status;
     $created_by=$res3->created_by;
-
     
     $subtotal=$res3->subtotal;
     $grand_total=$res3->grand_total;
@@ -118,23 +118,36 @@ body{
     $payment_status=$res3->payment_status;
     
     if(!empty($customer_country)){
-      $customer_country = $this->db->query("select country from db_country where id='$customer_country'")->row()->country;  
+      $Query1 = $this->db->query("select country from db_country where id='$customer_country'");
+      if($Query1->num_rows()>0){
+        $customer_country = $Query1->row()->country;  
+      }
+      else{
+        $customer_country = '';
+      }
     }
     if(!empty($customer_state)){
-      $customer_state = $this->db->query("select state from db_states where id='$customer_state'")->row()->state;  
+      $Query1 = $this->db->query("select state from db_states where id='$customer_state'");
+      if($Query1->num_rows()>0){
+        $customer_state = $Query1->row()->state;  
+      }
+      else{
+        $customer_state = '';
+      }
     }
     
+    $invoice_name = (strtoupper($sales_status) == strtoupper("Quotation")) ? "Quotation" : "Invoice";
 
     ?>
 
-<table align="center" width="100%" height='100%' style="border:1px solid;">
+<table align="center" width="100%" height='100%' style="border:0.5px solid;">
     <thead>
       <tr>
         <th colspan="10">
           <table width="100%">
             <tr>
               <th colspan="12" style="text-transform: uppercase;text-align: center;">
-              <?=  $this->lang->line('sales_invoice').' '.$sales_status;?>
+              <?=  $invoice_name;?>
               </th>
             </tr>
             <tr>
@@ -153,7 +166,7 @@ body{
               
             </tr>
             <tr class=" ">
-              <td colspan="6" style="border: 1px solid;" >
+              <td colspan="6" style="border: 0.5px solid;" >
               <center><?= $this->lang->line('customer_details'); ?></center>
               <?php echo $this->lang->line('name').": ".$customer_name; ?><br/>
                 <?php echo $this->lang->line('mobile').": ".$customer_mobile; ?>
@@ -177,11 +190,12 @@ body{
                 <?php echo (!empty(trim($customer_tax_number))) ? $this->lang->line('tax_number').": ".$customer_tax_number."<br>" : '';?>
             </td>
               
-              <td colspan="6" style="border: 1px solid;" >
+              <td colspan="6" style="border: 0.5px solid;" >
                       <?= $this->lang->line('invoice_no'); ?> : <?php echo "$sales_code"; ?><br>
                       <?= $this->lang->line('reference_no'); ?> : <?php echo "$reference_no"; ?><br>
                       <?= $this->lang->line('date'); ?> : <?php echo show_date($sales_date)." ".$created_time; ?><br>
                       <?= $this->lang->line('sales_man'); ?> : <?php echo ucfirst($created_by); ?><br>
+                      <?= $this->lang->line('payment_status'); ?> : <?=$payment_status; ?><br>
               </td>
             </tr>
           </table>
@@ -196,21 +210,21 @@ body{
     
   <tr style=''>
     
-    <th style='border-right: 1px solid;border-top: 1px solid;' >#</th>
+    <th style='border-right: 0.5px solid;border-top: 0.5px solid;' >#</th>
 
     <?php $colspan_1 = (!is_tax_disabled()) ? 3 : 4; ?>
-    <th style='border-right: 1px solid;border-top: 1px solid;'  colspan='<?=$colspan_1?>'><?= $this->lang->line('description'); ?></th>
-    <th style='border-right: 1px solid;border-top: 1px solid;' ><?= $this->lang->line('hsn'); ?></th>
-    <th style='border-right: 1px solid;border-top: 1px solid;' ><?= $this->lang->line('quantity'); ?></th>
-    <th style='border-right: 1px solid;border-top: 1px solid;' ><?= $this->lang->line('unit_price'); ?></th>
+    <th style='border-right: 0.5px solid;border-top: 0.5px solid;'  colspan='<?=$colspan_1?>'><?= $this->lang->line('description'); ?></th>
+    <th style='border-right: 0.5px solid;border-top: 0.5px solid;' ><?= $this->lang->line('hsn'); ?></th>
+    <th style='border-right: 0.5px solid;border-top: 0.5px solid;' ><?= $this->lang->line('quantity'); ?></th>
+    <th style='border-right: 0.5px solid;border-top: 0.5px solid;' ><?= $this->lang->line('unit_price'); ?></th>
     <?php if(!is_tax_disabled()) { ?>
-    <th style='border-right: 1px solid;border-top: 1px solid;' ><?= $this->lang->line('tax_amt'); ?></th>
+    <th style='border-right: 0.5px solid;border-top: 0.5px solid;' ><?= $this->lang->line('tax_amt'); ?></th>
     <?php } ?>
-    <th style='border-right: 1px solid;border-top: 1px solid;' ><?= $this->lang->line('discount_amount'); ?></th>
-    <th style='border-right: 1px solid;border-top: 1px solid;' ><?= $this->lang->line('total_amount'); ?></th>
+    <th style='border-right: 0.5px solid;border-top: 0.5px solid;' ><?= $this->lang->line('discount_amount'); ?></th>
+    <th style='border-right: 0.5px solid;border-top: 0.5px solid;' ><?= $this->lang->line('total_amount'); ?></th>
   </tr>
   </thead>
-<tbody style="border: 1px solid;">
+<tbody style="border: 0.5px solid;">
   
  <?php
               $i=0;
@@ -220,14 +234,29 @@ body{
               $tot_discount_amt=0;
               $tot_unit_total_cost=0;
               $tot_total_cost=0;
-              $q2=$this->db->query("SELECT c.item_name, a.sales_qty,
-                                  a.price_per_unit, b.tax,b.tax_name,a.tax_amt,
-                                  a.discount_input,a.discount_amt, a.unit_total_cost,
-                                  a.total_cost,c.hsn
-                                  FROM 
-                                  db_salesitems AS a,db_tax AS b,db_items AS c 
-                                  WHERE 
-                                  c.id=a.item_id AND b.id=a.tax_id AND a.sales_id='$sales_id'");
+              $this->db->select("a.sales_qty,
+                                 a.tax_type,
+                                 a.price_per_unit,
+                                 a.tax_amt,
+                                 a.discount_input,
+                                 a.discount_type,
+                                 a.discount_amt, 
+                                 a.unit_total_cost,
+                                 a.total_cost,
+                                 b.tax,
+                                 b.tax_name,
+                                 c.item_name,
+                                 a.description,
+                                 c.hsn
+                                 ");
+              $this->db->from("db_salesitems a");
+              $this->db->where("a.sales_id",$sales_id);
+              $this->db->join("db_tax b","b.id=a.tax_id","left");
+              $this->db->join("db_items c","c.id=a.item_id","left");
+
+              $q2 = $this->db->get();
+
+
               foreach ($q2->result() as $res2) {
                   $discount = (empty($res2->discount_input)||$res2->discount_input==0)? '-':$res2->discount_input."%";
                   $discount_amt = (empty($res2->discount_amt)||$res2->discount_input==0)? '-':$res2->discount_amt."";
@@ -236,16 +265,16 @@ body{
                   $tax_amt= number_format($res2->tax_amt,2,'.','');
                   
                   echo "<tr>";
-                  echo "<td style='border-right: 1px solid;border-top: 1px solid;'>".++$i."</td>";
-                  echo "<td style='border-right: 1px solid;border-top: 1px solid;' colspan='".$colspan_1."'>".$res2->item_name."</td>";
-                  echo "<td style='border-right: 1px solid;border-top: 1px solid;'>".$res2->hsn."</td>";
-                  echo "<td style='border-right: 1px solid;border-top: 1px solid;'>".$res2->sales_qty."</td>";
-                  echo "<td style='text-align: right;border-right: 1px solid;border-top: 1px solid;'>".$unit_price."</td>";
+                  echo "<td style='border-right: 0.5px solid;border-top: 0.5px solid;'>".++$i."</td>";
+                  echo "<td style='border-right: 0.5px solid;border-top: 0.5px solid;' colspan='".$colspan_1."'>".$res2->item_name."</td>";
+                  echo "<td style='border-right: 0.5px solid;border-top: 0.5px solid;'>".$res2->hsn."</td>";
+                  echo "<td style='border-right: 0.5px solid;border-top: 0.5px solid;'>".$res2->sales_qty."</td>";
+                  echo "<td style='text-align: right;border-right: 0.5px solid;border-top: 0.5px solid;'>".$unit_price."</td>";
                   if(!is_tax_disabled()){
-                  echo "<td style='text-align: right;border-right: 1px solid;border-top: 1px solid;'>".$tax_amt."</td>";
+                  echo "<td style='text-align: right;border-right: 0.5px solid;border-top: 0.5px solid;'>".$tax_amt."</td>";
                   }
-                  echo "<td style='text-align: right;border-right: 1px solid;border-top: 1px solid;'>".$discount_amt."</td>";
-                  echo "<td style='text-align: right;border-right: 1px solid;border-top: 1px solid;'>".$res2->total_cost."</td>";
+                  echo "<td style='text-align: right;border-right: 0.5px solid;border-top: 0.5px solid;'>".$discount_amt."</td>";
+                  echo "<td style='text-align: right;border-right: 0.5px solid;border-top: 0.5px solid;'>".$res2->total_cost."</td>";
                   echo "</tr>";  
                   $tot_qty +=$res2->sales_qty;
                   $tot_sales_price +=$res2->price_per_unit;
@@ -297,7 +326,14 @@ body{
     <td colspan="1" style="text-align: right;" ><b><?php echo number_format(($grand_total),2,'.',''); ?></b></td>
   </tr>
 
-
+  <?php if(!empty(trim($terms_and_conditions))){ ?>
+    <tr>
+      <td colspan="10" style="border: 0.5px solid;">
+        <span><b> <?= $this->lang->line('terms_and_conditions'); ?></b></span><br>
+        <span style='font-size: 8px;'><?= nl2br($terms_and_conditions);  ?></span>
+      </td>
+    </tr>
+  <?php } ?>
   <tr>
     <td colspan="5" style="padding-top: 100px">
       <b><?= $this->lang->line('customer_signature'); ?></b>
@@ -308,7 +344,7 @@ body{
   </tr>
 
   <?php if(!empty($sales_invoice_footer_text)) {?>
-  <tr style="border-top: 1px solid;">
+  <tr style="border-top: 0.5px solid;">
     <td colspan="10" style="text-align: center;">
       <b><?= $sales_invoice_footer_text; ?></b>
     </td>

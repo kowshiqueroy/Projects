@@ -21,14 +21,31 @@
          if(!isset($item_name)){
          $custom_barcode ='';
          $item_name=$sku=$hsn=$opening_stock=$item_code=$brand_id=$category_id=$gst_percentage=$tax_type=
-         $sales_price=$purchase_price=$profit_margin=$unit_id=$price=$alert_qty=$lot_number="";
+         $sales_price=$purchase_price=$profit_margin=$unit_id=$price=$lot_number="";
          $stock = 0;
+         $alert_qty= 0;
          $expire_date ='';
          $description ='';
          $final_price ='';
           $tax_id='';
           $discount='';
           $discount_type='Percentage';
+
+
+
+          //Create items unique Number
+         $qs5="select item_init from db_company";
+         $q5=$this->db->query($qs5);
+         $item_init=$q5->row()->item_init;
+         
+         $this->db->query("ALTER TABLE db_items AUTO_INCREMENT = 1");
+         $qs4="select coalesce(max(id),0)+1 as maxid from db_items";
+         $q1=$this->db->query($qs4);
+         $maxid=$q1->row()->maxid;
+         $item_code=$item_init.str_pad($maxid, 4, '0', STR_PAD_LEFT);
+         //end
+
+
          }
          $new_opening_stock ='';
          $adjustment_note ='';
@@ -61,6 +78,13 @@
                       <?= form_open('#', array('class' => 'form', 'id' => 'items-form', 'enctype'=>'multipart/form-data', 'method'=>'POST'));?>
                         <input type="hidden" id="base_url" value="<?php echo $base_url;; ?>">
                         <div class="box-body">
+                           <div class="row">
+                              <div class="form-group col-md-4">
+                                 <label for="item_code"><?= $this->lang->line('item_code'); ?><span class="text-danger">*</span></label>
+                                 <input type="text" class="form-control" id="item_code" name="item_code" placeholder="" value="<?php print $item_code; ?>" >
+                                 <span id="item_code_msg" style="display:none" class="text-danger"></span>
+                              </div>
+                           </div>
                            <div class="row">
                               <div class="form-group col-md-4">
                                  <label for="item_name"><?= $this->lang->line('item_name'); ?><span class="text-danger">*</span></label>
@@ -160,11 +184,11 @@
                                  <span id="hsn_msg" style="display:none" class="text-danger"></span>
                               </div>
                               <div class="form-group col-md-4">
-                                 <label for="alert_qty" ><?= $this->lang->line('minimum_qty'); ?></label>
-                                 <input type="number" class="form-control no_special_char" id="alert_qty" name="alert_qty" placeholder="" min="0"  value="<?php print $alert_qty; ?>" >
+                                 <label for="alert_qty" ><?= $this->lang->line('minimum_qty'); ?><span class="text-danger">*</span></label>
+                                 <input type="number" class="form-control" id="alert_qty" name="alert_qty" placeholder="" min="0"  value="<?php print $alert_qty; ?>" >
                                  <span id="alert_qty_msg" style="display:none" class="text-danger"></span>
                               </div>
-                              <div class="form-group col-md-4">
+                              <div class="form-group col-md-4 hide">
                                  <label for="lot_number" ><?= $this->lang->line('lot_number'); ?></label>
                                  <input type="text" class="form-control no_special_char" id="lot_number" name="lot_number" placeholder=""  value="<?php print $lot_number; ?>" >
                                  <span id="lot_number_msg" style="display:none" class="text-danger"></span>
