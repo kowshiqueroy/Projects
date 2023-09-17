@@ -47,8 +47,6 @@
 
   
 
-<script>toastFunction("Connecting");</script>
-
 <style>
 
 

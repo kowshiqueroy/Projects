@@ -91,7 +91,7 @@ echo '<audio style ="display:none" controls="controls" autoplay="autoplay" id="a
             <?php
  include 'files/templates/conn-db.php';
 
-$sql = "SELECT DISTINCT user_type FROM user_list";
+$sql = "SELECT DISTINCT user_type FROM user_type";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
