@@ -57,62 +57,428 @@ die();
             </div>
 
             <ul class="list-unstyled components">
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                        <i class="fas fa-home"></i>
-                        Home
-                    </a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-briefcase"></i>
-                        About
-                    </a>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                        <i class="fas fa-copy"></i>
-                        Pages
-                    </a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
+
+
+            <li class="active">
                     <a href="#">
                         <i class="fas fa-image"></i>
-                        Portfolio
+                        Dashboard
                     </a>
                 </li>
+
+
+
+                <li >
+                    <a href="#submenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-home"></i>
+                        Stock
+                    </a>
+
+
+                  
+
+                    <ul class="collapse list-unstyled" id="submenu">
+                        <li>
+                            <a href="#">View All</a>
+                        </li>
+                        <li>
+                            <a href="#">View In</a>
+                        </li>
+                        <li>
+                            <a href="#">View Out</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Database</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Modify</a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li>
                     <a href="#">
                         <i class="fas fa-question"></i>
-                        FAQ
+                        Stock In
                     </a>
                 </li>
+
+                <li >
+                    <a href="#submenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-home"></i>
+                        Item Name
+                    </a>
+
+                    <ul class="collapse list-unstyled" id="submenu3">
+                        <li>
+                            <a href="#">Add Item Name</a>
+                        </li>
+                        <li>
+                            <a href="#">View Item Name</a>
+                        </li>
+                        <li>
+                            <a href="#">Modify Item Name</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Add Category Name</a>
+                        </li>
+                        <li>
+                            <a href="#">View Category Name</a>
+                        </li>
+                        <li>
+                            <a href="#">Modify Category Name</a>
+                        </li>
+
+                        
+                    </ul>
+                </li>
+
+
                 <li>
                     <a href="#">
-                        <i class="fas fa-paper-plane"></i>
-                        Contact
+                        <i class="fas fa-question"></i>
+                        Stock Out
                     </a>
                 </li>
+
+
+                <li >
+                    <a href="#submenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-home"></i>
+                        Work Order
+                    </a>
+
+
+                  
+
+                    <ul class="collapse list-unstyled" id="submenu4">
+                        <li>
+                            <a href="#">Add Work Order</a>
+                        </li>
+                        <li>
+                            <a href="#">View Work Order</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+
+
+
+                <li >
+                    <a href="#submenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-home"></i>
+                        Floor Order
+                    </a>
+                    <ul class="collapse list-unstyled" id="submenu5">
+                        <li>
+                            <a href="#">Add Floor Order</a>
+                        </li>
+                        <li>
+                            <a href="#">View Floor Order</a>
+                        </li>
+                        <li>
+                            <a href="#">Receive Floor Order</a>
+                        </li>
+
+                       
+
+                        
+                    </ul>
+                </li>
+
+                <li >
+                    <a href="#submenu6" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-home"></i>
+                        Production Set
+                    </a>
+                    <ul class="collapse list-unstyled" id="submenu6">
+                        <li>
+                            <a href="#">Add Production Name</a>
+                        </li>
+                        <li>
+                            <a href="#">View Production Name</a>
+                        </li>
+                        <li>
+                            <a href="#">Modify Production Name</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Add Production Set</a>
+                        </li>
+                        <li>
+                            <a href="#">View Production Set</a>
+                        </li>
+                        <li>
+                            <a href="#">Modify Production Set</a>
+                        </li>
+
+                       
+
+                        
+                    </ul>
+                </li>
+
+
+                <li >
+                    <a href="#submenu7" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-home"></i>
+                        Requisition
+                    </a>
+                    <ul class="collapse list-unstyled" id="submenu7">
+                        <li>
+                            <a href="#">Add Requisition</a>
+                        </li>
+                        <li>
+                            <a href="#">View Requisition</a>
+                        </li>
+                        <li>
+                            <a href="#">Modify Requisition</a>
+                        </li>
+                       
+
+                        
+                    </ul>
+                </li>
+                <li >
+                    <a href="#submenu8" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-home"></i>
+                        Purchase Order
+                    </a>
+                    <ul class="collapse list-unstyled" id="submenu8">
+                        <li>
+                            <a href="#">Add Purchase Order</a>
+                        </li>
+                        <li>
+                            <a href="#">View Purchase Order</a>
+                        </li>
+                        <li>
+                            <a href="#">Modify Purchase Order</a>
+                        </li>
+                        <li>
+                            <a href="#">Submit Purchase Order</a>
+                        </li>
+                       
+
+                        
+                    </ul>
+                </li>
+               
+                <li>
+                    <a href="#">
+                        <i class="fas fa-question"></i>
+                        QC Approval
+                    </a>
+                </li>
+
+
+                <li >
+                    <a href="#submenu9" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-home"></i>
+                        Distribution
+                    </a>
+                    <ul class="collapse list-unstyled" id="submenu9">
+                        <li>
+                            <a href="#">Product In</a>
+                        </li>
+                        <li>
+                            <a href="#">Product Out</a>
+                        </li>
+
+                        <li>
+                            <a href="#">View Product In</a>
+                        </li>
+                        <li>
+                            <a href="#">View Product Out</a>
+                        </li>
+
+                        <li>
+                            <a href="#">View Product Stock</a>
+                        </li>
+
+
+                        <li>
+                            <a href="#">View Product Database</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Modify Product Database</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Add Product Name</a>
+                        </li>
+
+                        <li>
+                            <a href="#">View Product Name</a>
+                        </li>
+                        <li>
+                            <a href="#">Modify Product Name</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Add Product Category</a>
+                        </li>
+
+                        <li>
+                            <a href="#">View Product Category</a>
+                        </li>
+                        <li>
+                            <a href="#">Modify Product Category</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Add Person</a>
+                        </li>
+
+                        <li>
+                            <a href="#">View Person</a>
+                        </li>
+                        <li>
+                            <a href="#">Modify Person</a>
+                        </li>
+
+
+                      
+                       
+
+                        
+                    </ul>
+                </li>
+
+
+             
+
+
+                <li >
+                    <a href="#submenu10" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-home"></i>
+                        HR
+                    </a>
+                    <ul class="collapse list-unstyled" id="submenu10">
+                        <li>
+                            <a href="#">Add Employe</a>
+                        </li>
+                        <li>
+                            <a href="#">View All Employee</a>
+                        </li>
+                        <li>
+                            <a href="#">Modify Employee</a>
+                        </li>
+                        <li>
+                            <a href="#">Search Employee</a>
+                        </li>
+                        <li>
+                            <a href="#">Generate Employee ID</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Add Notice</a>
+                        </li>
+                        <li>
+                            <a href="#">View Notice</a>
+                        </li>
+                        <li>
+                            <a href="#">Modify Notice</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Add Job Post</a>
+                        </li>
+                        <li>
+                            <a href="#">View Job Post</a>
+                        </li>
+                        <li>
+                            <a href="#">Modify Job Post</a>
+                        </li>
+                        <li>
+                            <a href="#">Apply Job</a>
+                        </li>
+                        <li>
+                            <a href="#">View Job Application</a>
+                        </li>
+                       
+
+                        
+                    </ul>
+                </li>
+
+                
+                <li >
+                    <a href="#submenu11" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-home"></i>
+                        Accounts
+                    </a>
+                    <ul class="collapse list-unstyled" id="submenu11">
+                        <li>
+                            <a href="#">Add Expenses</a>
+                        </li>
+                        <li>
+                            <a href="#">View Expenses</a>
+                        </li>
+                        <li>
+                            <a href="#">Add Income</a>
+                        </li>
+                        <li>
+                            <a href="#">View Income</a>
+                        </li>
+                        <li>
+                            <a href="#">View Summary</a>
+                        </li>
+
+                        <li>
+                            <a href="#">View Database</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Add Payment Method</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Add Person</a>
+                        </li>
+                       
+                       
+
+                        
+                    </ul>
+                </li>
+
+
+                
+                <li >
+                    <a href="#submenu12" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-home"></i>
+                        Settings
+                    </a>
+                    <ul class="collapse list-unstyled" id="submenu12">
+                        <li>
+                            <a href="#">Change password</a>
+                        </li>
+                        <li>
+                            <a href="#">User List</a>
+                        </li>
+                        <li>
+                            <a href="#">Add User</a>
+                        </li>
+                        <li>
+                            <a href="#">Modify User</a>
+                        </li>
+
+                        <li>
+                            <a href="#">Add User Type</a>
+                        </li>
+                       
+
+                        
+                    </ul>
+                </li>
+
+
+
+
             </ul>
 
            <p id="devcredit">Developer:<br><strong>KowshiqueRoy</strong><br>IT Engineer<br>Ovijat Group<br><a href="tel:8801632950179">+8801632950179</a><br><a href="mailto:kowshiqueroy@gmail.com">kowshiqueroy@gmail.com</a></p>
