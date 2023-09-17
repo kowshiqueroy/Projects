@@ -4,7 +4,7 @@
 if( !isset($_SESSION['email'])){
 $_SESSION['email']="";}
 include 'msg.php';
-// define variables and set to empty values
+
 
 function test_input($data) {
    $data = trim($data);
@@ -20,8 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $pass = test_input($_POST["psw"]);
 
 $pass=md5($pass);
-
-echo $pass;
 include 'files/templates/conn-db.php';
 
 
@@ -34,22 +32,10 @@ if (
 $data=$result->fetch_assoc()){
 
 
-   echo '<script>toastFunction("Success");</script>';
-
-
-
-echo '<div id="toast">
-  <div class="checkicon"> <i class="fas fa-bell"></i> </div>Working</div>
-
-  <audio style ="display:none" controls="controls" autoplay="autoplay" id="audio"> height="0.5" width="0.5">
- <source src="files/sound/success.mp3" type="audio/mp3">
-</audio>
-<?php echo $sound ?>';
-
-
 $_SESSION['email']= $mail;
-//
-header( 'Location: dashboard.php');
+$_SESSION['user']= $type;
+
+header( 'Location: user/'.$_SESSION['user'].'/dashboard.php');
 die();
 
 }
@@ -60,13 +46,9 @@ else {
 echo '<script>toastFunction("Error");</script>';
 
 
-echo '<div id="toast">
-  <div class="checkicon"> <i class="fas fa-bell"></i> </div>Working</div>
-
-  <audio style ="display:none" controls="controls" autoplay="autoplay" id="audio"> height="0.5" width="0.5">
+echo '<audio style ="display:none" controls="controls" autoplay="autoplay" id="audio"> height="0.5" width="0.5">
  <source src="files/sound/error.mp3" type="audio/mp3">
-</audio>
-<?php echo $sound ?>';
+</audio>';
 
 
 
@@ -99,7 +81,7 @@ echo '<div id="toast">
       <div class="imgcontainer">
          <span onclick="document.getElementById('id01').style.display='none'" class="close"
             title="Close Modal">&times;</span>
-         <img src="images/logo.png" alt="Avatar" class="avatar">
+       
       </div>
       <div class="container">
 
@@ -137,7 +119,7 @@ include 'files/templates/close-db.php';
          <label><b>Password</b></label>
          <input type="password" placeholder="Enter Password" name="psw" required>
          <button name="login" type="submit">Login</button>
-         <input type="checkbox"> Remember me
+  
 
       </div>
       <div class="container" style="background-color:#f1f1f1">

@@ -1,401 +1,201 @@
+<?php
+
+
+$url=$_SERVER['REQUEST_URI'];
+
+
+$logout='http://' . $_SERVER['SERVER_NAME'] .'/'.'projects/app/logout.php';
+$home='http://' . $_SERVER['SERVER_NAME'] .'/'.'projects/app/index.php';
+session_start();
+
+if(isset($_SESSION['email']) && ! $_SESSION['email']=="" && str_contains($url,$_SESSION['user'])){
+
+
+}
+else{
+    header( 'Location: '.$home);
+die();
+}
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>AdminLTE 2 | Dashboard</title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <!-- Bootstrap 3.3.2 -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <!-- Font Awesome Icons -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <!-- Ionicons -->
-    <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-    <!-- Morris chart -->
-   
-    <!-- jvectormap -->
-    <!-- Daterange picker -->
-    <!-- Theme style -->
-    <link href="css/dashboard.css" rel="stylesheet" type="text/css" />
-    <link href="css/blue.css" rel="stylesheet" type="text/css" />
-    <!-- AdminLTE Skins. Choose a skin from the css/skins 
-         folder instead of downloading all of them to reduce the load. -->
-   
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body class="skin-blue">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>OviApp</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+
+
     <div class="wrapper">
-      
-      <header class="main-header">
-        <!-- Logo -->
-        <a href="index2.html" class="logo"><b>Store</b>Man</a>
-        <!-- Header Navbar: style can be found in header.less -->
-        <nav class="navbar navbar-static-top" role="navigation">
-          <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-          </a>
-          <!-- Navbar Right Menu -->
-          <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-              
-              
-              <!-- User Account: style can be found in dropdown.less -->
-              <li class="">
-                <a href="#"  data-toggle="dropdown">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Ovijat Group</h3>
+                <strong>OviApp</strong>
                 
-                  <span class="">Email</span>   <span class="">|</span> <span class="">UserType</span><span class="">|</span> <span class="">Log Out</span>
-                </a>
-                <ul class="dropdown-menu">
-                  <!-- User image -->
-              
-                    <div class="pull">
-                      <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
-                    </div>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </header>
-      <!-- Left side column. contains the logo and sidebar -->
-      <aside class="main-sidebar">
-        <!-- sidebar: style can be found in sidebar.less -->
-        <section class="sidebar">
-          <!-- Sidebar user panel -->
-          <div class="user-panel">
-            
-            <div class="pull-left info">
-              <p>Email</p>
-
-              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
-          </div>
-        
-          <!-- sidebar menu: : style can be found in sidebar.less -->
-          <ul class="sidebar-menu">
-            <li class="header">MAIN NAVIGATION</li>
-            <li class="active treeview">
-              <a href="dashboardadmin.php">
-                <i class="fa fa-dashboard"></i> <span>Dashboard</span> 
-              </a>
-             
-            </li>
 
-            <li class="treeview">
-              <a href="dashboardadmin.php">
-                <i class="fa fa-dashboard"></i> <span>Stock</span> 
-              </a>
-             
-            </li>
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-home"></i>
+                        Home
+                    </a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="#">Home 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 3</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-briefcase"></i>
+                        About
+                    </a>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-copy"></i>
+                        Pages
+                    </a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="#">Page 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-image"></i>
+                        Portfolio
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-question"></i>
+                        FAQ
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-paper-plane"></i>
+                        Contact
+                    </a>
+                </li>
+            </ul>
 
-            
-            <li class="treeview">
-              <a href="dashboardadmin.php">
-                <i class="fa fa-dashboard"></i> <span>Stock In</span> 
-              </a>
-             
-            </li>
+           <p id="devcredit">Developer:<br><strong>KowshiqueRoy</strong><br>IT Engineer<br>Ovijat Group<br><a href="tel:8801632950179">+8801632950179</a><br><a href="mailto:kowshiqueroy@gmail.com">kowshiqueroy@gmail.com</a></p>
+        </nav>
 
-            <li class="treeview">
-              <a href="dashboardadmin.php">
-                <i class="fa fa-dashboard"></i> <span>Stock Out</span> 
-              </a>
-             
-            </li>
+        <!-- Page Content  -->
+        <div id="content">
 
+            <nav id="navbar">
+                <div class="container-fluid">
 
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Item Name</span>
-                <span class="label label-primary pull-right">4</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Add Item Name</a></li>
-                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>View Item Name</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Add Category Name</a></li>
-                <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i>View Category Name</a></li>
-              </ul>
-            </li>
-            <li>
+                    
+                   
 
+                    <div class="navmenu">
 
+                        <ul id="navul"></ul>
+                        <button type="button" id="sidebarCollapse" class="btn btn-info">
+                            <i class="fas fa-bars"></i>
+                            
+                        </button>
+                    
+                        
+                            <li id="navli"><a href="<?php echo $logout?>"><i class="fas fa-sign-out-alt"></i>Log Out</a></li>
+                            <li id="navli"><a href=""><i class="fas fa-user"></i><?php echo $_SESSION['user']?>  </a></li>
+                            <li id="navli"><a href="#contact"><i class="fas fa-envelope"></i><?php echo $_SESSION['email']?>  </a></li>
+                          
+                            <li id="navli"><a href="#about"> <i class="fas fa-sync fa-spin"></i>  Online   </a></li>
+                          </ul>
+                       
+                    </div>
+                </div>
+            </nav>
 
+            <h2>Collapsible Sidebar Using Bootstrap 4</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Work Order</span>
-                <span class="label label-primary pull-right">4</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Add Work Order</a></li>
-                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>View Work Order</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Modify Work Order</a></li>
-              </ul>
-            </li>
-            <li>
+            <div class="line"></div>
 
+            <h2>Lorem Ipsum Dolor</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Floor Order</span>
-                <span class="label label-primary pull-right">4</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Add Floor Order</a></li>
-                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>View Floor Order</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Modify Floor Order</a></li>
-              </ul>
-            </li>
-            <li>
+            <div class="line"></div>
 
+            <h2>Lorem Ipsum Dolor</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Production Set</span>
-                <span class="label label-primary pull-right">4</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Add Production Set</a></li>
-                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>View Production Set</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Modify Production Set</a></li>
-              </ul>
-            </li>
-            <li>
+            <div class="line"></div>
 
-
-
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Requision Order</span>
-                <span class="label label-primary pull-right">4</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Add Requisition</a></li>
-                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>View Requisition</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Modify Requisition</a></li>
-              </ul>
-            </li>
-            <li>
-
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Purchase Order</span>
-                <span class="label label-primary pull-right">4</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Add Purchase Order</a></li>
-                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>View Purchase Order</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Modify Purchase Order</a></li>
-
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Submit Purchase</a></li>
-              </ul>
-            </li>
-            <li>
-
-            <li class="treeview">
-              <a href="dashboardadmin.php">
-                <i class="fa fa-dashboard"></i> <span>QC Approval</span> 
-              </a>
-             
-            </li>
-
-
-
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Report</span>
-                <span class="label label-primary pull-right">4</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Add Purchase Order</a></li>
-                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>View Purchase Order</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Modify Purchase Order</a></li>
-
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Submit Purchase</a></li>
-              </ul>
-            </li>
-            <li>
-
-
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Distribution</span>
-                <span class="label label-primary pull-right">4</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Product In</a></li>
-                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>Product Out</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Product Stock</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Product Data</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Add Product Name</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>In From</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Out To</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>In Report</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Out Report</a></li>
-              </ul>
-            </li>
-            <li>
-
-
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Sales</span>
-                <span class="label label-primary pull-right">4</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Product In</a></li>
-                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>Product Out</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Product Stock</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Product Data</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Add Product Name</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>In From</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Out To</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Daily Report</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Monthly Report</a></li>
-              </ul>
-            </li>
-            <li>
-
-
-
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Transport</span>
-                <span class="label label-primary pull-right">4</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Item In</a></li>
-                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>Item Out</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Item Stock</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Item Data</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Add Item Name</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>In From</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Out To</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>In Report</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Out Report</a></li>
-              </ul>
-            </li>
-            <li>
-
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>HR</span>
-                <span class="label label-primary pull-right">4</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Add Employee</a></li>
-                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>View Employees</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Modify Emplyee</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Generate ID</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Job Post</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>View Job Post</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Modify Job Post</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Job Post Apllications</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Add Notice</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>View Notice</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Modify Notice</a></li>
-              </ul>
-            </li>
-            <li>
-
-
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Users</span>
-                <span class="label label-primary pull-right">4</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Add User</a></li>
-                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>View Users</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>Modify User</a></li>
-                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i>User Types</a></li>
-                            </ul>
-            </li>
-            <li>
-
-
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Settings</span>
-                <span class="label label-primary pull-right">4</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i>Change Password</a></li>
-                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i>Forget Password</a></li>
-                            </ul>
-            </li>
-           
-           
-           
-          
-          
-          
-          </ul>
-        </section>
-        <!-- /.sidebar -->
-      </aside>
-
-      <!-- Right side column. Contains the navbar and content of the page -->
-      <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-          <h1>
-            Dashboard
-            <small>Version 2.0</small>
-          </h1>
-          <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Dashboard</li>
-          </ol>
-        </section>
-
-        <!-- Main content -->
-        <section class="content">
-          
-
-
-
-
-
-
-
-
-        </section><!-- /.content -->
-
-
-
-      </div><!-- /.content-wrapper -->
-
-      <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-          <b>Version</b> 2.0
+            <h3>Lorem Ipsum Dolor</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </div>
-        <strong>Copyright &copy; 2023- <a href="mailto:kowshiqueroy@gmail.com">Kowshique Roy</a>.</strong> All rights reserved.
-      </footer>
-
     </div>
-  
- 
-   
-  </body>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+
+
+
+<?php include  $_SERVER['DOCUMENT_ROOT'] .'/'.'projects/app/msg.php';
+
+
+//echo get_include_path() . PATH_SEPARATOR . $_SERVER['DOCUMENT_ROOT'];
+
+echo $url;
+
+echo str_contains($url,$_SESSION['user']);
+echo $_SESSION['user'];
+?>
+
+</body>
+
 </html>

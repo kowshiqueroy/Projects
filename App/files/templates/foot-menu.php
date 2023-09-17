@@ -1,6 +1,6 @@
 <footer>
-  <p>Developer: <br>
-  <a href="mailto:kowshiqueroy@gmail.com">Kowshique Roy</a></p>
+  <p class="ft">Developer: <br>
+  <a class="ft" href="mailto:kowshiqueroy@gmail.com">Kowshique Roy</a></p>
 </footer>
 
 

@@ -3,9 +3,6 @@
 
 
 
-</html>
-
-
 
 
   <style> #someelem
@@ -50,7 +47,7 @@
 
   
 
-<script>toastFunction();</script>
+<script>toastFunction("Connecting");</script>
 
 <style>
 
