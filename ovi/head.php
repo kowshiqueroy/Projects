@@ -27,8 +27,8 @@
                         <p class="d-flex mb-0">
                             <i class="bi-envelope me-2"></i>
 
-                            <a href="mailto:info@company.com">
-                                info@company.com
+                            <a href="mailto:info@ovijatfood.com">
+                                info@ovijatfood.com
                             </a>
                         </p>
                     </div>
@@ -36,24 +36,21 @@
                     <div class="col-lg-3 col-12 ms-auto d-lg-block d-none">
                         <ul class="social-icon">
                             <li class="social-icon-item">
-                                <a href="#" class="social-icon-link bi-twitter"></a>
-                            </li>
-
-                            <li class="social-icon-item">
                                 <a href="#" class="social-icon-link bi-facebook"></a>
                             </li>
 
                             <li class="social-icon-item">
-                                <a href="#" class="social-icon-link bi-instagram"></a>
+                                <a href="#" class="social-icon-link bi-envelope"></a>
                             </li>
 
                             <li class="social-icon-item">
-                                <a href="#" class="social-icon-link bi-youtube"></a>
+                                <a href="#" class="social-icon-link bi-phone"></a>
                             </li>
 
                             <li class="social-icon-item">
-                                <a href="#" class="social-icon-link bi-whatsapp"></a>
+                                <a href="#" class="social-icon-link bi-linkedin"></a>
                             </li>
+
                         </ul>
                     </div>
 

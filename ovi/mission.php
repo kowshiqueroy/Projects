@@ -16,7 +16,7 @@
                         <div class="col-lg-5 col-12">
                        
 
-                            <a href="" class="custom-btn btn smoothscroll">Ovijat Group</a>
+                            <a href="" class="custom-btn btn smoothscroll">Ovijat Group' Mission</a>
                         </div>
 
                     </div>
