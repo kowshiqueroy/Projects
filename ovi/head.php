@@ -10,6 +10,8 @@
         <link href="css/bootstrap-icons.css" rel="stylesheet">
         <link href="css/index.css" rel="stylesheet">
         <link rel="icon" type="image/x-icon" href="images/logo.png">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     
     <body id="section_1">
@@ -83,14 +85,14 @@
                     
                     
                         <li class="nav-item dropdown">
-                            <a class="nav-link click-scroll dropdown-toggle" href="#section_5" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">About</a>
+                            <a class="nav-link click-scroll dropdown-toggle" href="" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">About Us</a>
 
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
                                 <li><a class="dropdown-item" href="chairman.php">Chaiman's Message</a></li>
 
                                 <li><a class="dropdown-item" href="mission.php">Our Mission</a></li>
                                 <li><a class="dropdown-item" href="vission.php">Our Vission</a></li>
-                                <li><a class="dropdown-item" href="company.php">Comapny Details</a></li>
+                                <li><a class="dropdown-item" href="company.php">Comapny at a glance</a></li>
                                 <li><a class="dropdown-item" href="qa.php">Quality Assurance</a></li>
                                 <li><a class="dropdown-item" href="sisterconcern.php">Sister Concerns</a></li>
                             </ul>
@@ -121,4 +123,67 @@
             </div>
         </nav>
 
+
+        <div id="mybutton">
+<button onclick="brochure()" id = "brochure" class="feedback">Product Brochure</button>
+</div>
+
+
+<script>
+function brochure() {
+  document.getElementById("brochure").innerHTML = "Downloaded";
+
+  //window.open("https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg")
+  var file_path = 'brochure/ovijatproducts.pdf';
+var a = document.createElement('A');
+a.href = file_path;
+a.download = file_path.substr(file_path.lastIndexOf('/') + 1);
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+}
+</script>
+
+
+
+<style>
+
+
+
+.feedback {
+    
+  background-color :    green;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border-color: red;
+  transform: rotateZ(90deg);
+
+
+
+}
+
+#mybutton {
+  position: fixed;
+  bottom: 400px;
+  right: -60px;
+  z-index: 100;
+  opacity: 0.2;
+ 
+}
+
+#mybutton:hover {
+ 
+  opacity: 1;
+ 
+}
+
+
+
+</style>
+
+
+
         <main>
+
+        

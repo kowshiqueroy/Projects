@@ -2,6 +2,65 @@
 
        
             <img src="images/video.gif" style="  height: auto; width: 100%;"class="" alt="">
+
+
+
+            <style>
+.buttonup {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 26px;
+  margin: 4px 2px;
+  cursor: pointer;
+
+ width: 100%;
+padding: 10px;
+}
+.buttonup:hover {
+  
+  font-size: 36px;
+  background-color: red;
+}
+
+@media screen and (max-width: 992px) {
+
+  .buttonup {
+    font-size: 16px;
+  }
+
+  .buttonup:hover {
+  
+  font-size: 26px;
+  background-color: red;
+}
+}
+
+</style>
+
+            <section style=" padding-top:15px; padding-bottom:15px; ">
+    <div class="fa-3x" id="buttonupid" style=" display: flex; ">
+              <button class="buttonup"> <i class="fa fa-tag" aria-hidden="true"> </i><br>Private Labeling</button>  
+              <button class="buttonup">   <i class="fa fa-ship" aria-hidden="true"></i></i><br>WorldWide Shiping</button>  
+              <button class="buttonup">   <i class="fa fa-handshake-o" aria-hidden="true"></i></i><br>Contract Manufacturing</button>  
+
+
+
+
+
+             
+
+          </div>
+          
+
+           
+
+           
+  </section>
           
 
 
@@ -190,48 +249,41 @@
                 </div>
             </section>
 
-            <section class="section-padding">
-                <div class="container">
-                    <div class="row">
+    <section class="section-padding">
+      <div class="container">
+          <div class="row">
 
-                        <div class="col-lg-10 col-12 text-center mx-auto">
-                            <h2 class="mb-5">Ovijat Group</h2>
-                        </div>
+              <div class="col-lg-10 col-12 text-center mx-auto">
+                  <h2 class="mb-5">Ovijat Group</h2>
+              </div>
 
-                    
-                               
-                         <div id="sc"style=" margin: auto;
-  width: 90%;
-  text-align: center;
-  border: 3px solid #73AD21;
-  padding: 10px;">
-                        <img src="" style="max-width:150px" alt="">
-                         
-                        <img src="" style="max-width:150px" alt="">
-                                    <img class="col-lg-2 col-12 text-center mx-auto" src="images/1.png" style="max-width:150px" alt="">
-                                    <img class="col-lg-2 col-12 text-center mx-auto" src="images/2.png" style="max-width:150px" alt="">
-                                    <img class="col-lg-2 col-12 text-center mx-auto" src="images/3.png" style="max-width:150px" alt="">
-                                    <img class="col-lg-2 col-12 text-center mx-auto" src="images/4.png" style="max-width:150px" alt="">
-                                    <img class="col-lg-2 col-12 text-center mx-auto" src="images/5.png" style="max-width:150px" alt="">
+              <div id="sc" style=" margin: auto;
+                             width: 90%;
+                             text-align: center;
+                             border: 3px solid #73AD21;
+                            padding: 10px;">
+                  <img src="" style="max-width:150px" alt="">
 
-                                    <img class="col-lg-2 col-12 text-center mx-auto" src="images/6.png" style="max-width:150px" alt="">
+                  <img src="" style="max-width:150px" alt="">
+                  <img class="col-lg-2 col-12 text-center mx-auto" src="images/1.png" style="max-width:150px" alt="">
+                  <img class="col-lg-2 col-12 text-center mx-auto" src="images/2.png" style="max-width:150px" alt="">
+                  <img class="col-lg-2 col-12 text-center mx-auto" src="images/3.png" style="max-width:150px" alt="">
+                  <img class="col-lg-2 col-12 text-center mx-auto" src="images/4.png" style="max-width:150px" alt="">
+                  <img class="col-lg-2 col-12 text-center mx-auto" src="images/5.png" style="max-width:150px" alt="">
 
-                                  
-</div>    
-                          
-                        
-                                
+                  <img class="col-lg-2 col-12 text-center mx-auto" src="images/6.png" style="max-width:150px" alt="">
 
-                                  
-                              
-                      
-                    
+              </div>
 
-                    </div>
-                </div>
-            </section>
+          </div>
+      </div>
+  </section>
 
     
+
+
+
+
 
 
 
