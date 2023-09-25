@@ -98,8 +98,17 @@
                             </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link click-scroll" href="products.php">Products</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link click-scroll dropdown-toggle" href="" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Products</a>
+
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                                <li><a class="dropdown-item" href="snacks.php">Snacks</a></li>
+                                <li><a class="dropdown-item" href="drinks.php">Drinks</a></li>
+                                <li><a class="dropdown-item" href="eoil.php">Edible Oil</a></li>
+                                <li><a class="dropdown-item" href="rices.php">Rices</a></li>
+                                <li><a class="dropdown-item" href="bakery.php">Bakery</a></li>
+                                <li><a class="dropdown-item" href="spices.php">Spices</a></li>
+                            </ul>
                         </li>
 
                         <li class="nav-item">
@@ -133,7 +142,7 @@
 function brochure() {
   document.getElementById("brochure").innerHTML = "Downloaded";
 
-  //window.open("https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg")
+  window.open("brochure/ovijatproducts.pdf")
   var file_path = 'brochure/ovijatproducts.pdf';
 var a = document.createElement('A');
 a.href = file_path;
@@ -165,7 +174,8 @@ document.body.removeChild(a);
 
 #mybutton {
   position: fixed;
-  bottom: 400px;
+  top: 300px;
+  bottom: 300px;
   right: -60px;
   z-index: 100;
   opacity: 0.2;
