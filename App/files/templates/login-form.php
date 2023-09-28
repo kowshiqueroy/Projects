@@ -33,9 +33,9 @@ $data=$result->fetch_assoc()){
 
 
 $_SESSION['email']= $mail;
-$_SESSION['user']= $type;
+$_SESSION['type']= $type;
 
-header( 'Location: user/'.$_SESSION['user'].'/dashboard.php');
+header( 'Location: user/'.$_SESSION['type'].'/dashboard.php');
 die();
 
 }
@@ -86,6 +86,9 @@ echo '<audio style ="display:none" controls="controls" autoplay="autoplay" id="a
       <div class="container">
 
          <label for="user"><b>User Type</b></label>
+
+
+
          <select style="margin-left:20px" id="user" name="type">
 
             <?php

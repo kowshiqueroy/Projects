@@ -27,12 +27,7 @@
 <?php include  $_SERVER['DOCUMENT_ROOT'] .'/'.'projects/app/msg.php';
 
 
-//echo get_include_path() . PATH_SEPARATOR . $_SERVER['DOCUMENT_ROOT'];
 
-//echo $url;
-
-//echo str_contains($url,$_SESSION['user']);
-//echo $_SESSION['user'];
 ?>
 
 </body>

@@ -5,7 +5,7 @@ session_start();
 
 
 if(isset($_SESSION['email']) && ! $_SESSION['email']==""){
-   header( 'Location: user/'.$_SESSION['user'].'/dashboard.php');
+   header( 'Location: user/'.$_SESSION['type'].'/dashboard.php');
     die();
 }
 else{

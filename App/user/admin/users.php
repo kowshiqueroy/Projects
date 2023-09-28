@@ -3,10 +3,75 @@
 
 <?php include 'dashboard-header.php' ?>
 
+<?php include  $_SERVER['DOCUMENT_ROOT'] .'/'.'projects/app/msg.php';
 
+
+
+?>
 
 
 <style>
+
+
+@media screen and (max-width: 900px) {
+
+
+  .open-button {
+    background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 2px;
+  width: 100px;
+  height: 50px;
+  font-size: 9px;
+}
+
+
+
+
+.open-button2 {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 105px;
+  width: 100px;
+  height: 50px;
+  font-size: 10px;
+}
+
+.open-button3 {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 210px;
+  width: 100px;
+  height: 50px;
+  font-size: 10px;
+
+
+
+
+}
+}
+
+
+@media screen and (min-width: 901px) {
+
 .open-button {
   background-color: #555;
   color: white;
@@ -20,6 +85,35 @@
   width: 280px;
 }
 
+
+
+
+.open-button2 {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 320px;
+  width: 280px;
+}
+
+.open-button3 {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 620px;
+  width: 280px;
+}
+}
 /* The popup form - hidden by default */
 .form-popup {
   display: none;
@@ -99,29 +193,25 @@ th {
 
 
 
-<h2>User Types</h2>
+<h2>User List</h2>
 
 
 
 <table>
   <tr>
     <th>ID</th>
+    <th>Mail</th>
     <th>User Type</th>
-    <th>By</th>
+   
     <th>Date</th>
   </tr>
-  <tr>
-    <td>Peter</td>
-    <td>Griffin</td>
-    <td>$100</td>
-    <td>Savings</td>
-  </tr>
+ 
 
 
   <?php
  include 'config.php';
 
-$sql = "SELECT * FROM user_type";
+$sql = "SELECT * FROM user_list ORDER BY id DESC";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -131,9 +221,10 @@ if ($result->num_rows > 0) {
 
 
 echo "<tr><td>".$row["id"]."</td>"; 
+echo "<td>".$row["mail"]."</td>"; 
 echo "<td>".$row["user_type"]."</td>"; 
-echo "<td>".$row["admin_id"]."</td>"; 
-echo "<td>".$row["times"]."</td></tr>"; 
+
+echo "<td>".$row["reg_date"]."</td></tr>"; 
 
  //  echo "id: " . $row["id"]. " - mail: " . $row["mail"]. " - user_type: " . $row["user_type"].  " - pass: " . $row["pass"]. "<br>";
   }
@@ -151,14 +242,64 @@ include 'close-config.php';
 
 
 
-<button class="open-button" onclick="openForm()">+ Modify User</button>
+<button class="open-button" onclick="openForm()">+ Create User</button>
 
 <div class="form-popup" id="myForm">
   <form method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>" class="form-container">
     <h1>Create</h1>
 
     <label for="user-type"><b>User Type</b></label>
-    <input type="text" placeholder="user-type" name="user-type" required>
+    
+
+
+
+
+
+    <select style="margin-left:20px" id="user" name="type">
+
+<?php
+ include 'config.php';
+
+$sql = "SELECT DISTINCT user_type FROM user_type";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+// output data of each row
+while($row = $result->fetch_assoc()) {
+
+
+
+echo "<option value='".$row["user_type"]."'>".$row["user_type"]."</option>"; 
+
+//  echo "id: " . $row["id"]. " - mail: " . $row["mail"]. " - user_type: " . $row["user_type"].  " - pass: " . $row["pass"]. "<br>";
+}
+} else {
+// echo "0 results";
+}
+include 'close-config.php';
+?>
+
+</select>
+
+
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
+    <label for="mail"><b>Mail</b></label>
+    <input type="text" placeholder="mail" name="mail" required>
+
+    <label for="pass"><b>Password</b></label>
+    <input type="text" placeholder="pass" name="pass" required>
 
    
 
@@ -170,21 +311,113 @@ include 'close-config.php';
 
 
 
+<button  class="open-button2" onclick="openForm2()">Modify User</button>
 
 
-<button class="open-button" onclick="openForm()">+ Create New User</button>
 
-<div class="form-popup" id="myForm">
+<div class="form-popup" id="myForm2">
   <form method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>" class="form-container">
-    <h1>Create</h1>
+    <h1>Modify</h1>
 
-    <label for="user-type"><b>User Type</b></label>
-    <input type="text" placeholder="user-type" name="user-type" required>
+    <label for="user-type"><b>Mail</b></label>
+    
+
+
+
+
+
+    <select style="margin-left:20px" id="user" name="mail">
+
+<?php
+ include 'config.php';
+
+$sql = "SELECT  mail FROM user_list";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+// output data of each row
+while($row = $result->fetch_assoc()) {
+
+
+
+echo "<option value='".$row["mail"]."'>".$row["mail"]."</option>"; 
+
+//  echo "id: " . $row["id"]. " - mail: " . $row["mail"]. " - user_type: " . $row["user_type"].  " - pass: " . $row["pass"]. "<br>";
+}
+} else {
+// echo "0 results";
+}
+include 'close-config.php';
+?>
+
+</select>
+
+
+
+<br>
+
+    <label for="pass"><b>Password</b></label>
+    <input type="text" placeholder="pass" name="pass" required>
 
    
 
-    <button name="save"  type="submit" class="btn">Save</button>
-    <button type="button" class="btn cancel" onclick="closeForm()">X</button>
+    <button name="save2"  type="submit" class="btn">Save</button>
+    <button type="button" class="btn cancel" onclick="closeForm2()">X</button>
+  </form>
+</div>
+
+
+
+
+<button  class="open-button3" onclick="openForm3()">- Delete User</button>
+
+
+
+<div class="form-popup" id="myForm3">
+  <form method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>" class="form-container">
+    <h1>Delete</h1>
+
+    <label for="user-type"><b>Mail</b></label>
+    
+
+
+    <select style="margin-left:20px" id="user" name="mail">
+
+<?php
+ include 'config.php';
+
+$sql = "SELECT  mail FROM user_list";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+// output data of each row
+while($row = $result->fetch_assoc()) {
+
+
+
+echo "<option value='".$row["mail"]."'>".$row["mail"]."</option>"; 
+
+//  echo "id: " . $row["id"]. " - mail: " . $row["mail"]. " - user_type: " . $row["user_type"].  " - pass: " . $row["pass"]. "<br>";
+}
+} else {
+// echo "0 results";
+}
+include 'close-config.php';
+?>
+
+</select>
+
+
+
+<br>
+
+
+  
+
+   
+
+    <button name="save3"  type="submit" class="btn">Delete</button>
+    <button type="button" class="btn cancel" onclick="closeForm3()">X</button>
   </form>
 </div>
 
@@ -205,7 +438,26 @@ function closeForm() {
 }
 </script>
 
+<script>
+function openForm2() {
+  document.getElementById("myForm2").style.display = "block";
+}
 
+function closeForm2() {
+  document.getElementById("myForm2").style.display = "none";
+}
+</script>
+
+
+<script>
+function openForm3() {
+  document.getElementById("myForm3").style.display = "block";
+}
+
+function closeForm3() {
+  document.getElementById("myForm3").style.display = "none";
+}
+</script>
 
 
 
@@ -229,14 +481,129 @@ function test_input($data) {
     return $data;
   }
 
-  $user_type = test_input($_POST["user-type"]);
-  $admin_id = $_SESSION['email'];
+  $user_type = test_input($_POST["type"]);
+  $mail = test_input($_POST["mail"]);
 
-$sql = "INSERT INTO user_type (user_type, admin_id)
-  VALUES ('$user_type','$admin_id')";
+  $pass =md5( test_input($_POST["pass"]));
+
+$sql = "INSERT INTO user_list (mail,user_type, pass)
+  VALUES ('$mail','$user_type','$pass')";
   
   if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
+
+    echo"<script>document.getElementById('id01').style.display='block';</script>";
+
+
+
+    
+
+    echo"<script>toastFunction('Done');</script>";
+  } else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+
+    echo"<script>toastFunction('Error');</script>";
+  }
+
+
+
+
+
+    }
+
+
+}
+
+include 'dashboard-footer.php';
+?>
+
+
+
+
+<?php 
+
+
+
+if(isset($_POST['save2'])) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+include 'config.php';
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+  }
+
+
+  $mail = test_input($_POST["mail"]);
+
+  $pass =md5( test_input($_POST["pass"]));
+
+$sql = "UPDATE user_list SET pass='$pass' WHERE mail='$mail'";
+  
+  if ($conn->query($sql) === TRUE) {
+    echo "New record created successfully";
+
+    echo"<script>document.getElementById('id01').style.display='block';</script>";
+
+
+
+    
+
+    echo"<script>toastFunction('Done');</script>";
+  } else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+
+    echo"<script>toastFunction('Error');</script>";
+  }
+
+
+
+
+
+    }
+
+
+}
+
+include 'dashboard-footer.php';
+?>
+
+
+
+
+
+<?php 
+
+
+
+if(isset($_POST['save3'])) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+include 'config.php';
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+  }
+
+
+  $mail = test_input($_POST["mail"]);
+
+
+
+$sql = "DELETE FROM user_list  WHERE mail='$mail'";
+  
+  if ($conn->query($sql) === TRUE) {
+    echo "New record created successfully";
+
+    echo"<script>document.getElementById('id01').style.display='block';</script>";
+
+
+
+    
 
     echo"<script>toastFunction('Done');</script>";
   } else {

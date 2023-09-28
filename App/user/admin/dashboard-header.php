@@ -8,7 +8,7 @@ $logout='http://' . $_SERVER['SERVER_NAME'] .'/'.'projects/app/logout.php';
 $home='http://' . $_SERVER['SERVER_NAME'] .'/'.'projects/app/index.php';
 session_start();
 
-if(isset($_SESSION['email']) && ! $_SESSION['email']=="" && str_contains($url,$_SESSION['user'])){
+if(isset($_SESSION['email']) && ! $_SESSION['email']=="" && str_contains($url,$_SESSION['type'])){
 
 
 }
@@ -32,6 +32,9 @@ die();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <title>OviApp</title>
+
+
+    
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -111,7 +114,7 @@ die();
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="stockin.php">
                         <i class="fas fa-question"></i>
                         Stock In
                     </a>
@@ -120,29 +123,24 @@ die();
                 <li >
                     <a href="#submenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                         <i class="fas fa-home"></i>
-                        Item Name
+                        Item/Category
                     </a>
 
                     <ul class="collapse list-unstyled" id="submenu3">
                         <li>
-                            <a href="#">Add Item Name</a>
+                            <a href="itemname.php">Item Name</a>
                         </li>
-                        <li>
-                            <a href="#">View Item Name</a>
-                        </li>
-                        <li>
-                            <a href="#">Modify Item Name</a>
-                        </li>
+                       
 
                         <li>
-                            <a href="#">Add Category Name</a>
+                            <a href="categoryname.php">Category Name</a>
                         </li>
+
+
                         <li>
-                            <a href="#">View Category Name</a>
+                            <a href="entityname.php">Entity Name</a>
                         </li>
-                        <li>
-                            <a href="#">Modify Category Name</a>
-                        </li>
+                       
 
                         
                     </ul>
@@ -467,7 +465,7 @@ die();
                     </a>
                     <ul class="collapse list-unstyled" id="submenu12">
                         <li>
-                            <a href="#">Change password</a>
+                            <a href="changepass.php">Change password</a>
                         </li>
                         <li>
                             <a href="users.php">Users</a>
@@ -509,7 +507,7 @@ die();
                     
                         
                             <li id="navli"><a href="<?php echo $logout?>"><i class="fas fa-sign-out-alt"></i>Log Out</a></li>
-                            <li id="navli"><a href=""><i class="fas fa-user"></i><?php echo $_SESSION['user']?>  </a></li>
+                            <li id="navli"><a href=""><i class="fas fa-user"></i><?php echo $_SESSION['type']?>  </a></li>
                             <li id="navli"><a href="#contact"><i class="fas fa-envelope"></i><?php echo $_SESSION['email']?>  </a></li>
                           
                             <li id="navli"><a href="#about"> <i class="fas fa-sync fa-spin"></i>  Online   </a></li>
